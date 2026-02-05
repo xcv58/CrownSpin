@@ -4,75 +4,65 @@ struct ContentView: View {
     @StateObject private var hapticManager = HapticManager()
     @State private var crownRotation: Double = 0.0
     @State private var showIndicator: Bool = true
-    @State private var ringRotation: Double = 0.0
 
     var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                // Pure black background for discretion
-                Color.black
-                    .ignoresSafeArea()
+        ZStack {
+            // Pure black background for discretion
+            Color.black
+                .ignoresSafeArea()
 
-                // Subtle rotating ring indicator
-                if showIndicator {
-                    RotatingRingView(rotation: ringRotation)
-                        .opacity(0.3)
-                }
+            // Subtle rotating ring indicator
+            if showIndicator {
+                RotatingRingView(rotation: crownRotation * 50)
+                    .opacity(0.3)
+            }
 
-                // Pattern indicator at bottom
-                if showIndicator {
-                    VStack {
-                        Spacer()
-                        HStack(spacing: 4) {
-                            Image(systemName: hapticManager.currentPattern.icon)
-                                .font(.system(size: 12))
-                            Text(hapticManager.currentPattern.displayName)
-                                .font(.system(size: 10))
-                        }
-                        .foregroundColor(.gray.opacity(0.6))
-                        .padding(.bottom, 8)
+            // Pattern indicator at bottom
+            if showIndicator {
+                VStack {
+                    Spacer()
+                    HStack(spacing: 4) {
+                        Image(systemName: hapticManager.currentPattern.icon)
+                            .font(.system(size: 12))
+                        Text(hapticManager.currentPattern.displayName)
+                            .font(.system(size: 10))
                     }
-                }
-
-                // Invisible tap zones
-                HStack(spacing: 0) {
-                    // Left half - previous pattern
-                    Color.clear
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            hapticManager.previousPattern()
-                        }
-
-                    // Right half - next pattern
-                    Color.clear
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            hapticManager.nextPattern()
-                        }
+                    .foregroundColor(.gray.opacity(0.6))
+                    .padding(.bottom, 8)
                 }
             }
-            .onTapGesture(count: 2) {
-                // Double tap toggles indicator visibility
-                withAnimation(.easeInOut(duration: 0.2)) {
-                    showIndicator.toggle()
-                }
+
+            // Tap zones overlay
+            HStack(spacing: 0) {
+                // Left half - previous pattern
+                Color.clear
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        hapticManager.previousPattern()
+                    }
+                    .onLongPressGesture(minimumDuration: 0.5) {
+                        withAnimation {
+                            showIndicator.toggle()
+                        }
+                    }
+
+                // Right half - next pattern
+                Color.clear
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        hapticManager.nextPattern()
+                    }
+                    .onLongPressGesture(minimumDuration: 0.5) {
+                        withAnimation {
+                            showIndicator.toggle()
+                        }
+                    }
             }
         }
         .focusable()
-        .digitalCrownRotation(
-            $crownRotation,
-            from: -Double.infinity,
-            through: Double.infinity,
-            sensitivity: .medium,
-            isContinuous: true,
-            isHapticFeedbackEnabled: false
-        )
+        .digitalCrownRotation($crownRotation)
         .onChange(of: crownRotation) { oldValue, newValue in
             hapticManager.processRotation(newValue)
-            // Update ring rotation for visual feedback
-            withAnimation(.linear(duration: 0.1)) {
-                ringRotation = newValue * 50 // Amplify for visual effect
-            }
         }
     }
 }

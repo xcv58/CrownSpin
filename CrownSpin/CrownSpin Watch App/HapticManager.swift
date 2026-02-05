@@ -1,8 +1,6 @@
 import WatchKit
-import Combine
 
 /// Manages haptic feedback based on Digital Crown rotation
-@MainActor
 class HapticManager: ObservableObject {
     @Published var currentPattern: HapticPattern {
         didSet {
@@ -11,7 +9,6 @@ class HapticManager: ObservableObject {
         }
     }
 
-    private let device = WKInterfaceDevice.current()
     private var lastRotationValue: Double = 0
     private var accumulatedDelta: Double = 0
 
@@ -78,58 +75,50 @@ class HapticManager: ObservableObject {
         }
     }
 
+    private func playHaptic(_ type: WKHapticType) {
+        WKInterfaceDevice.current().play(type)
+    }
+
     private func playBasicHaptic() {
-        device.play(currentPattern.primaryHaptic)
+        playHaptic(currentPattern.primaryHaptic)
     }
 
     private func playHeartbeat() {
         // Heartbeat: strong-weak pattern (lub-dub)
-        if rhythmStep % 2 == 0 {
-            device.play(.start)
-        } else {
-            device.play(.stop)
-        }
+        playHaptic(rhythmStep % 2 == 0 ? .start : .stop)
         rhythmStep += 1
     }
 
     private func playDoubleTap() {
         // Two quick taps
-        device.play(.click)
-        Task {
-            try? await Task.sleep(nanoseconds: 50_000_000) // 50ms
-            await MainActor.run {
-                self.device.play(.click)
-            }
+        playHaptic(.click)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [weak self] in
+            self?.playHaptic(.click)
         }
     }
 
     private func playGallop() {
         // Long-short-short rhythm (da-da-dum)
         let haptics: [WKHapticType] = [.notification, .click, .click]
-        device.play(haptics[rhythmStep % 3])
+        playHaptic(haptics[rhythmStep % 3])
         rhythmStep += 1
     }
 
     private func playWaltz() {
         // 1-2-3 rhythm with emphasis on 1
         let step = rhythmStep % 3
-        if step == 0 {
-            device.play(.notification) // Strong beat
-        } else {
-            device.play(.click) // Weak beats
-        }
+        playHaptic(step == 0 ? .notification : .click)
         rhythmStep += 1
     }
 
     private func playStaccato() {
-        // Sharp, crisp taps
-        device.play(.click)
+        playHaptic(.click)
     }
 
     private func playWave() {
         // Intensity builds up then fades
         let haptics: [WKHapticType] = [.click, .directionUp, .directionDown, .notification, .directionDown, .directionUp, .click]
-        device.play(haptics[waveIntensity])
+        playHaptic(haptics[waveIntensity])
 
         waveIntensity += waveDirection
         if waveIntensity >= haptics.count - 1 {
@@ -140,10 +129,9 @@ class HapticManager: ObservableObject {
     }
 
     private func playRandom() {
-        // Random haptic type
         let haptics: [WKHapticType] = [.click, .directionUp, .directionDown, .success, .failure, .retry, .start, .stop, .notification]
         if let randomHaptic = haptics.randomElement() {
-            device.play(randomHaptic)
+            playHaptic(randomHaptic)
         }
     }
 
@@ -153,8 +141,7 @@ class HapticManager: ObservableObject {
             let nextIndex = (currentIndex + 1) % allPatterns.count
             currentPattern = allPatterns[nextIndex]
         }
-        // Provide feedback for pattern change
-        device.play(.click)
+        playHaptic(.click)
     }
 
     func previousPattern() {
@@ -163,7 +150,6 @@ class HapticManager: ObservableObject {
             let previousIndex = (currentIndex - 1 + allPatterns.count) % allPatterns.count
             currentPattern = allPatterns[previousIndex]
         }
-        // Provide feedback for pattern change
-        device.play(.click)
+        playHaptic(.click)
     }
 }

@@ -1,5 +1,4 @@
 import SwiftUI
-import WidgetKit
 
 @main
 struct CrownSpinApp: App {
@@ -7,12 +6,5 @@ struct CrownSpinApp: App {
         WindowGroup {
             ContentView()
         }
-    }
-}
-
-// Widget bundle for complications - included in main app for watchOS 10+
-struct CrownSpinWidgetBundle: WidgetBundle {
-    var body: some Widget {
-        CrownSpinWidget()
     }
 }

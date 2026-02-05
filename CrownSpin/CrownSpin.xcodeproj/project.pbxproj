@@ -12,8 +12,6 @@
 		C01234560000000000000003 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01234550000000000000003 /* HapticManager.swift */; };
 		C01234560000000000000004 /* HapticPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01234550000000000000004 /* HapticPattern.swift */; };
 		C01234560000000000000005 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C01234550000000000000005 /* Assets.xcassets */; };
-		C01234560000000000000007 /* CrownSpinWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01234550000000000000007 /* CrownSpinWidget.swift */; };
-		C01234560000000000000008 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C01234550000000000000008 /* WidgetKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,8 +21,6 @@
 		C01234550000000000000004 /* HapticPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticPattern.swift; sourceTree = "<group>"; };
 		C01234550000000000000005 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C01234550000000000000006 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C01234550000000000000007 /* CrownSpinWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrownSpinWidget.swift; sourceTree = "<group>"; };
-		C01234550000000000000008 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		C01234550000000000000010 /* CrownSpin Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CrownSpin Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -33,7 +29,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C01234560000000000000008 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -45,7 +40,6 @@
 			children = (
 				C01234540000000000000002 /* CrownSpin Watch App */,
 				C01234540000000000000003 /* Products */,
-				C01234540000000000000004 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,19 +50,10 @@
 				C01234550000000000000002 /* ContentView.swift */,
 				C01234550000000000000003 /* HapticManager.swift */,
 				C01234550000000000000004 /* HapticPattern.swift */,
-				C01234550000000000000007 /* CrownSpinWidget.swift */,
 				C01234550000000000000005 /* Assets.xcassets */,
 				C01234550000000000000006 /* Info.plist */,
 			);
 			path = "CrownSpin Watch App";
-			sourceTree = "<group>";
-		};
-		C01234540000000000000004 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				C01234550000000000000008 /* WidgetKit.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		C01234540000000000000003 /* Products */ = {
@@ -152,7 +137,6 @@
 				C01234560000000000000002 /* ContentView.swift in Sources */,
 				C01234560000000000000003 /* HapticManager.swift in Sources */,
 				C01234560000000000000004 /* HapticPattern.swift in Sources */,
-				C01234560000000000000007 /* CrownSpinWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -166,12 +150,13 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5736QK4NZX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "CrownSpin Watch App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = CrownSpin;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKApplication = YES;
+				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -195,12 +180,13 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5736QK4NZX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "CrownSpin Watch App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = CrownSpin;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKApplication = YES;
+				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -353,7 +339,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
 	};
 	rootObject = C01234530000000000000001 /* Project object */;
 }
