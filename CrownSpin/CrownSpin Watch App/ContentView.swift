@@ -297,6 +297,13 @@ struct ItemRow: View {
     let isAmbientMode: Bool
     let isScrolling: Bool
 
+    private var backgroundOpacity: Double {
+        if isScrolling && !isSelected {
+            return isAmbientMode ? 0.1 : 0.3
+        }
+        return 1.0
+    }
+
     var body: some View {
         ZStack {
             // Base background
@@ -311,6 +318,7 @@ struct ItemRow: View {
                         endPoint: .bottom
                     )
                 )
+                .opacity(backgroundOpacity)
 
             // Selection highlight
             if isSelected {
@@ -327,18 +335,16 @@ struct ItemRow: View {
                         .padding(.horizontal, 8)
                     Spacer()
                 }
+                .opacity(backgroundOpacity)
             }
 
-            // Number for selected row
-            if isSelected {
-                Text("\(displayNumber)")
-                    .font(.system(size: 20, weight: .medium, design: .rounded))
-                    .foregroundColor(.white.opacity(isAmbientMode ? 0.6 : 1.0))
-            }
+            // Number
+            Text("\(displayNumber)")
+                .font(.system(size: isSelected ? 20 : 14, weight: isSelected ? .medium : .regular, design: .rounded))
+                .foregroundColor(.white.opacity(isSelected ? (isAmbientMode ? 0.6 : 1.0) : (isAmbientMode ? 0.2 : 0.4)))
         }
         .frame(maxWidth: .infinity)
         .frame(height: 40)
-        .opacity(isScrolling && !isSelected ? (isAmbientMode ? 0.1 : 0.3) : 1.0)
         .animation(.easeInOut(duration: 0.1), value: isSelected)
         .animation(.easeInOut(duration: 0.3), value: isScrolling)
     }
