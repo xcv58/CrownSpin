@@ -48,23 +48,6 @@ enum HapticPattern: String, CaseIterable, Identifiable {
         }
     }
 
-    /// Sensitivity determines how much rotation triggers a haptic
-    /// Lower values = more sensitive (more haptics per rotation)
-    var sensitivity: Double {
-        switch self {
-        case .clicks: return 0.02    // High sensitivity
-        case .soft: return 0.04      // Medium sensitivity
-        case .heavy: return 0.08     // Low sensitivity
-        case .heartbeat: return 0.06
-        case .doubleTap: return 0.05
-        case .gallop: return 0.05
-        case .waltz: return 0.04
-        case .staccato: return 0.015 // Very high sensitivity
-        case .wave: return 0.03
-        case .random: return 0.04
-        }
-    }
-
     /// Primary haptic type for basic patterns
     var primaryHaptic: WKHapticType {
         switch self {
@@ -79,5 +62,10 @@ enum HapticPattern: String, CaseIterable, Identifiable {
         case .wave: return .directionUp
         case .random: return .click
         }
+    }
+
+    /// All patterns except random (for random mode selection)
+    static var nonRandomPatterns: [HapticPattern] {
+        allCases.filter { $0 != .random }
     }
 }

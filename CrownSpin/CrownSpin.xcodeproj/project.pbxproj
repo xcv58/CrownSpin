@@ -9,19 +9,25 @@
 /* Begin PBXBuildFile section */
 		C01234560000000000000001 /* CrownSpinApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01234550000000000000001 /* CrownSpinApp.swift */; };
 		C01234560000000000000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01234550000000000000002 /* ContentView.swift */; };
-		C01234560000000000000003 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01234550000000000000003 /* HapticManager.swift */; };
 		C01234560000000000000004 /* HapticPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01234550000000000000004 /* HapticPattern.swift */; };
 		C01234560000000000000005 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C01234550000000000000005 /* Assets.xcassets */; };
+		DFF9BB402F3588300041DFEE /* PatternPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF9BB3E2F3588300041DFEE /* PatternPicker.swift */; };
+		DFF9BB412F3588300041DFEE /* CrownSpinComplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF9BB3C2F3588300041DFEE /* CrownSpinComplication.swift */; };
+		DFF9BB422F3588300041DFEE /* HapticStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF9BB3D2F3588300041DFEE /* HapticStats.swift */; };
+		DFF9BB432F3588300041DFEE /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF9BB3F2F3588300041DFEE /* StatsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		C01234550000000000000001 /* CrownSpinApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrownSpinApp.swift; sourceTree = "<group>"; };
 		C01234550000000000000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		C01234550000000000000003 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		C01234550000000000000004 /* HapticPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticPattern.swift; sourceTree = "<group>"; };
 		C01234550000000000000005 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C01234550000000000000006 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C01234550000000000000010 /* CrownSpin Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CrownSpin Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DFF9BB3C2F3588300041DFEE /* CrownSpinComplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrownSpinComplication.swift; sourceTree = "<group>"; };
+		DFF9BB3D2F3588300041DFEE /* HapticStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticStats.swift; sourceTree = "<group>"; };
+		DFF9BB3E2F3588300041DFEE /* PatternPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternPicker.swift; sourceTree = "<group>"; };
+		DFF9BB3F2F3588300041DFEE /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,9 +52,12 @@
 		C01234540000000000000002 /* CrownSpin Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				DFF9BB3C2F3588300041DFEE /* CrownSpinComplication.swift */,
+				DFF9BB3D2F3588300041DFEE /* HapticStats.swift */,
+				DFF9BB3E2F3588300041DFEE /* PatternPicker.swift */,
+				DFF9BB3F2F3588300041DFEE /* StatsView.swift */,
 				C01234550000000000000001 /* CrownSpinApp.swift */,
 				C01234550000000000000002 /* ContentView.swift */,
-				C01234550000000000000003 /* HapticManager.swift */,
 				C01234550000000000000004 /* HapticPattern.swift */,
 				C01234550000000000000005 /* Assets.xcassets */,
 				C01234550000000000000006 /* Info.plist */,
@@ -135,7 +144,10 @@
 			files = (
 				C01234560000000000000001 /* CrownSpinApp.swift in Sources */,
 				C01234560000000000000002 /* ContentView.swift in Sources */,
-				C01234560000000000000003 /* HapticManager.swift in Sources */,
+				DFF9BB402F3588300041DFEE /* PatternPicker.swift in Sources */,
+				DFF9BB412F3588300041DFEE /* CrownSpinComplication.swift in Sources */,
+				DFF9BB422F3588300041DFEE /* HapticStats.swift in Sources */,
+				DFF9BB432F3588300041DFEE /* StatsView.swift in Sources */,
 				C01234560000000000000004 /* HapticPattern.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
