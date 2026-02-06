@@ -63,7 +63,7 @@ struct ContentView: View {
                             }
                             .onTapGesture(count: 1) {
                                 if scrollPosition == index {
-                                    triggerHaptic()
+                                    nextPattern()
                                 } else {
                                     isTapNavigation = true
                                     showControls()

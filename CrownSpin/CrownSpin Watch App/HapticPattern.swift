@@ -7,6 +7,13 @@ enum HapticPattern: String, CaseIterable, Identifiable {
     case soft
     case heavy
 
+    // Texture patterns
+    case buzz
+    case ping
+    case thud
+    case drift
+    case pulse
+
     // Rhythm patterns
     case heartbeat
     case doubleTap
@@ -23,6 +30,11 @@ enum HapticPattern: String, CaseIterable, Identifiable {
         case .clicks: return "Clicks"
         case .soft: return "Soft"
         case .heavy: return "Heavy"
+        case .buzz: return "Buzz"
+        case .ping: return "Ping"
+        case .thud: return "Thud"
+        case .drift: return "Drift"
+        case .pulse: return "Pulse"
         case .heartbeat: return "Heartbeat"
         case .doubleTap: return "Double Tap"
         case .gallop: return "Gallop"
@@ -38,6 +50,11 @@ enum HapticPattern: String, CaseIterable, Identifiable {
         case .clicks: return "hand.tap"
         case .soft: return "cloud"
         case .heavy: return "hammer"
+        case .buzz: return "antenna.radiowaves.left.and.right"
+        case .ping: return "checkmark.circle"
+        case .thud: return "xmark.circle"
+        case .drift: return "leaf.arrow.triangle.circlepath"
+        case .pulse: return "dot.radiowaves.right"
         case .heartbeat: return "heart"
         case .doubleTap: return "hand.tap.fill"
         case .gallop: return "hare"
@@ -54,6 +71,11 @@ enum HapticPattern: String, CaseIterable, Identifiable {
         case .clicks: return .click
         case .soft: return .directionUp
         case .heavy: return .notification
+        case .buzz: return .retry
+        case .ping: return .success
+        case .thud: return .failure
+        case .drift: return .directionDown
+        case .pulse: return .stop
         case .heartbeat: return .start
         case .doubleTap: return .click
         case .gallop: return .click
