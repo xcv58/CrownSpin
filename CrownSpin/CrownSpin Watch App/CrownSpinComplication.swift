@@ -11,6 +11,8 @@ struct CrownSpinEntry: TimelineEntry {
 
 /// Provider for complication timeline
 struct CrownSpinProvider: TimelineProvider {
+    private static let suiteName = "group.com.xcv58.crownspin.watchapp"
+
     func placeholder(in context: Context) -> CrownSpinEntry {
         CrownSpinEntry(date: Date(), totalHaptics: 0, currentPattern: "Clicks", patternIcon: "hand.tap")
     }
@@ -22,15 +24,15 @@ struct CrownSpinProvider: TimelineProvider {
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<CrownSpinEntry>) -> Void) {
         let entry = createEntry()
-        // Update every hour or when app updates
         let nextUpdate = Calendar.current.date(byAdding: .hour, value: 1, to: Date()) ?? Date()
         let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
         completion(timeline)
     }
 
     private func createEntry() -> CrownSpinEntry {
-        let totalHaptics = UserDefaults.standard.integer(forKey: "stats.totalHaptics")
-        let patternRaw = UserDefaults.standard.string(forKey: "selectedHapticPattern") ?? "clicks"
+        let defaults = UserDefaults(suiteName: Self.suiteName) ?? UserDefaults.standard
+        let totalHaptics = defaults.integer(forKey: "stats.totalHaptics")
+        let patternRaw = defaults.string(forKey: "selectedHapticPattern") ?? "clicks"
         let pattern = HapticPattern(rawValue: patternRaw) ?? .clicks
 
         return CrownSpinEntry(
@@ -117,7 +119,6 @@ struct CrownSpinComplicationEntryView: View {
 }
 
 /// The complication widget
-/// NOTE: To use this, create a Widget Extension target in Xcode and move this file there
 struct CrownSpinComplication: Widget {
     let kind: String = "CrownSpinComplication"
 

@@ -6,6 +6,7 @@ import WidgetKit
 /// Tracks haptic usage statistics
 class HapticStats: ObservableObject {
     static let shared = HapticStats()
+    private static let sharedDefaults = UserDefaults(suiteName: "group.com.xcv58.crownspin.watchapp")
 
     private enum Keys {
         static let totalHaptics = "stats.totalHaptics"
@@ -16,17 +17,26 @@ class HapticStats: ObservableObject {
     }
 
     @Published private(set) var totalHaptics: Int {
-        didSet { UserDefaults.standard.set(totalHaptics, forKey: Keys.totalHaptics) }
+        didSet {
+            UserDefaults.standard.set(totalHaptics, forKey: Keys.totalHaptics)
+            Self.sharedDefaults?.set(totalHaptics, forKey: Keys.totalHaptics)
+        }
     }
 
     @Published private(set) var sessionHaptics: Int = 0
 
     @Published private(set) var longestSession: Int {
-        didSet { UserDefaults.standard.set(longestSession, forKey: Keys.longestSession) }
+        didSet {
+            UserDefaults.standard.set(longestSession, forKey: Keys.longestSession)
+            Self.sharedDefaults?.set(longestSession, forKey: Keys.longestSession)
+        }
     }
 
     @Published private(set) var totalSessions: Int {
-        didSet { UserDefaults.standard.set(totalSessions, forKey: Keys.totalSessions) }
+        didSet {
+            UserDefaults.standard.set(totalSessions, forKey: Keys.totalSessions)
+            Self.sharedDefaults?.set(totalSessions, forKey: Keys.totalSessions)
+        }
     }
 
     private init() {

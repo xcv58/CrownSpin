@@ -286,6 +286,7 @@ struct ContentView: View {
 
     private func saveSettings() {
         UserDefaults.standard.set(currentPattern.rawValue, forKey: Constants.patternKey)
+        UserDefaults(suiteName: "group.com.xcv58.crownspin.watchapp")?.set(currentPattern.rawValue, forKey: Constants.patternKey)
     }
 }
 
