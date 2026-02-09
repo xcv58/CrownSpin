@@ -6,7 +6,7 @@ import WidgetKit
 /// Tracks haptic usage statistics
 class HapticStats: ObservableObject {
     static let shared = HapticStats()
-    private static let sharedDefaults = UserDefaults(suiteName: "group.com.xcv58.crownspin.watchapp")
+    private static let sharedDefaults = UserDefaults(suiteName: appGroupSuiteName)
 
     private enum Keys {
         static let totalHaptics = "stats.totalHaptics"
@@ -43,6 +43,10 @@ class HapticStats: ObservableObject {
         self.totalHaptics = UserDefaults.standard.integer(forKey: Keys.totalHaptics)
         self.longestSession = UserDefaults.standard.integer(forKey: Keys.longestSession)
         self.totalSessions = UserDefaults.standard.integer(forKey: Keys.totalSessions)
+        // Sync existing stats to shared defaults for the complication
+        Self.sharedDefaults?.set(totalHaptics, forKey: Keys.totalHaptics)
+        Self.sharedDefaults?.set(longestSession, forKey: Keys.longestSession)
+        Self.sharedDefaults?.set(totalSessions, forKey: Keys.totalSessions)
     }
 
     func recordHaptic() {
@@ -70,6 +74,9 @@ class HapticStats: ObservableObject {
         longestSession = 0
         totalSessions = 0
         sessionHaptics = 0
+        #if canImport(WidgetKit)
+        WidgetCenter.shared.reloadAllTimelines()
+        #endif
     }
 
     var formattedTotal: String {

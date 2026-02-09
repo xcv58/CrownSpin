@@ -11,7 +11,7 @@ struct CrownSpinEntry: TimelineEntry {
 
 /// Provider for complication timeline
 struct CrownSpinProvider: TimelineProvider {
-    private static let suiteName = "group.com.xcv58.crownspin.watchapp"
+    private static let sharedDefaults = UserDefaults(suiteName: appGroupSuiteName)
 
     func placeholder(in context: Context) -> CrownSpinEntry {
         CrownSpinEntry(date: Date(), totalHaptics: 0, currentPattern: "Clicks", patternIcon: "hand.tap")
@@ -30,7 +30,7 @@ struct CrownSpinProvider: TimelineProvider {
     }
 
     private func createEntry() -> CrownSpinEntry {
-        let defaults = UserDefaults(suiteName: Self.suiteName) ?? UserDefaults.standard
+        let defaults = Self.sharedDefaults
         let totalHaptics = defaults.integer(forKey: "stats.totalHaptics")
         let patternRaw = defaults.string(forKey: "selectedHapticPattern") ?? "clicks"
         let pattern = HapticPattern(rawValue: patternRaw) ?? .clicks

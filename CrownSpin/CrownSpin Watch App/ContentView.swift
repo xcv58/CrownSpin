@@ -282,11 +282,15 @@ struct ContentView: View {
             currentPattern = pattern
         }
         isAmbientMode = UserDefaults.standard.bool(forKey: Constants.ambientModeKey)
+        // Sync current pattern to shared defaults for the complication
+        Self.sharedDefaults?.set(currentPattern.rawValue, forKey: Constants.patternKey)
     }
+
+    private static let sharedDefaults = UserDefaults(suiteName: appGroupSuiteName)
 
     private func saveSettings() {
         UserDefaults.standard.set(currentPattern.rawValue, forKey: Constants.patternKey)
-        UserDefaults(suiteName: "group.com.xcv58.crownspin.watchapp")?.set(currentPattern.rawValue, forKey: Constants.patternKey)
+        Self.sharedDefaults?.set(currentPattern.rawValue, forKey: Constants.patternKey)
     }
 }
 

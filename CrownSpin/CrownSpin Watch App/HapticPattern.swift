@@ -1,5 +1,8 @@
 import WatchKit
 
+/// App Group suite name for sharing data with the complication widget extension
+let appGroupSuiteName = "group.com.xcv58.crownspin.watchapp"
+
 /// Defines haptic feedback patterns for the Crown Spin fidget experience
 enum HapticPattern: String, CaseIterable, Identifiable {
     // Basic patterns
