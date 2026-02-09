@@ -80,23 +80,14 @@ class HapticStats: ObservableObject {
     }
 
     var formattedTotal: String {
-        formatNumber(totalHaptics)
+        formatHapticNumber(totalHaptics)
     }
 
     var formattedSession: String {
-        formatNumber(sessionHaptics)
+        formatHapticNumber(sessionHaptics)
     }
 
     var formattedLongest: String {
-        formatNumber(longestSession)
-    }
-
-    private func formatNumber(_ num: Int) -> String {
-        if num >= 1_000_000 {
-            return String(format: "%.1fM", Double(num) / 1_000_000)
-        } else if num >= 1_000 {
-            return String(format: "%.1fK", Double(num) / 1_000)
-        }
-        return "\(num)"
+        formatHapticNumber(longestSession)
     }
 }

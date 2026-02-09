@@ -94,3 +94,13 @@ enum HapticPattern: String, CaseIterable, Identifiable {
         allCases.filter { $0 != .random }
     }
 }
+
+/// Formats a haptic count for display (e.g. 1500 → "1.5K", 2000000 → "2.0M")
+func formatHapticNumber(_ num: Int) -> String {
+    if num >= 1_000_000 {
+        return String(format: "%.1fM", Double(num) / 1_000_000)
+    } else if num >= 1_000 {
+        return String(format: "%.1fK", Double(num) / 1_000)
+    }
+    return "\(num)"
+}

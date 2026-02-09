@@ -29,10 +29,10 @@ struct CrownSpinProvider: TimelineProvider {
         completion(timeline)
     }
 
-    private func createEntry() -> CrownSpinEntry {
+    func createEntry() -> CrownSpinEntry {
         let defaults = Self.sharedDefaults
-        let totalHaptics = defaults.integer(forKey: "stats.totalHaptics")
-        let patternRaw = defaults.string(forKey: "selectedHapticPattern") ?? "clicks"
+        let totalHaptics = defaults?.integer(forKey: "stats.totalHaptics") ?? 0
+        let patternRaw = defaults?.string(forKey: "selectedHapticPattern") ?? "clicks"
         let pattern = HapticPattern(rawValue: patternRaw) ?? .clicks
 
         return CrownSpinEntry(
@@ -70,7 +70,7 @@ struct CrownSpinComplicationEntryView: View {
             VStack(spacing: 2) {
                 Image(systemName: entry.patternIcon)
                     .font(.system(size: 16))
-                Text(formatNumber(entry.totalHaptics))
+                Text(formatHapticNumber(entry.totalHaptics))
                     .font(.system(size: 12, weight: .semibold, design: .rounded))
             }
         }
@@ -83,7 +83,7 @@ struct CrownSpinComplicationEntryView: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text("CrownSpin")
                     .font(.system(size: 12, weight: .semibold))
-                Text("\(formatNumber(entry.totalHaptics)) haptics")
+                Text("\(formatHapticNumber(entry.totalHaptics)) haptics")
                     .font(.system(size: 11))
                     .foregroundColor(.secondary)
             }
@@ -97,25 +97,17 @@ struct CrownSpinComplicationEntryView: View {
                 .font(.system(size: 20))
         }
         .widgetLabel {
-            Text(formatNumber(entry.totalHaptics))
+            Text(formatHapticNumber(entry.totalHaptics))
         }
     }
 
     private var inlineView: some View {
         HStack(spacing: 4) {
             Image(systemName: entry.patternIcon)
-            Text("\(formatNumber(entry.totalHaptics)) haptics")
+            Text("\(formatHapticNumber(entry.totalHaptics)) haptics")
         }
     }
 
-    private func formatNumber(_ num: Int) -> String {
-        if num >= 1_000_000 {
-            return String(format: "%.1fM", Double(num) / 1_000_000)
-        } else if num >= 1_000 {
-            return String(format: "%.1fK", Double(num) / 1_000)
-        }
-        return "\(num)"
-    }
 }
 
 /// The complication widget

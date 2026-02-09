@@ -19,6 +19,12 @@
 		DFF9BB562F3589000041DFEE /* HapticPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01234550000000000000004 /* HapticPattern.swift */; };
 		DFF9BB572F3589000041DFEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DFF9BB512F3589000041DFEE /* Assets.xcassets */; };
 		DFF9BB582F3589000041DFEE /* CrownSpin Complication.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = DFF9BB522F3589000041DFEE /* CrownSpin Complication.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AABB00010000000000000001 /* HapticPatternTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB00020000000000000001 /* HapticPatternTests.swift */; };
+		AABB00010000000000000002 /* HapticStatsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB00020000000000000002 /* HapticStatsTests.swift */; };
+		AABB00010000000000000003 /* CrownSpinComplicationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB00020000000000000003 /* CrownSpinComplicationTests.swift */; };
+		AABB00010000000000000004 /* HapticPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01234550000000000000004 /* HapticPattern.swift */; };
+		AABB00010000000000000005 /* HapticStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF9BB3D2F3588300041DFEE /* HapticStats.swift */; };
+		AABB00010000000000000006 /* CrownSpinComplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF9BB3C2F3588300041DFEE /* CrownSpinComplication.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +66,10 @@
 		DFF9BB512F3589000041DFEE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DFF9BB522F3589000041DFEE /* CrownSpin Complication.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "CrownSpin Complication.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFF9BB532F3589000041DFEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AABB00020000000000000001 /* HapticPatternTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticPatternTests.swift; sourceTree = "<group>"; };
+		AABB00020000000000000002 /* HapticStatsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticStatsTests.swift; sourceTree = "<group>"; };
+		AABB00020000000000000003 /* CrownSpinComplicationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrownSpinComplicationTests.swift; sourceTree = "<group>"; };
+		AABB00020000000000000010 /* CrownSpinTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CrownSpinTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +87,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AABB00030000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -85,6 +102,7 @@
 			children = (
 				C01234540000000000000002 /* CrownSpin Watch App */,
 				DFF9BB592F3589000041DFEE /* CrownSpin Complication */,
+				AABB00040000000000000001 /* CrownSpinTests */,
 				C01234540000000000000003 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -110,6 +128,7 @@
 			children = (
 				C01234550000000000000010 /* CrownSpin Watch App.app */,
 				DFF9BB522F3589000041DFEE /* CrownSpin Complication.appex */,
+				AABB00020000000000000010 /* CrownSpinTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -122,6 +141,16 @@
 				DFF9BB532F3589000041DFEE /* Info.plist */,
 			);
 			path = "CrownSpin Complication";
+			sourceTree = "<group>";
+		};
+		AABB00040000000000000001 /* CrownSpinTests */ = {
+			isa = PBXGroup;
+			children = (
+				AABB00020000000000000001 /* HapticPatternTests.swift */,
+				AABB00020000000000000002 /* HapticStatsTests.swift */,
+				AABB00020000000000000003 /* CrownSpinComplicationTests.swift */,
+			);
+			path = CrownSpinTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -163,6 +192,22 @@
 			productReference = DFF9BB522F3589000041DFEE /* CrownSpin Complication.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		AABB00050000000000000001 /* CrownSpinTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AABB00080000000000000001 /* Build configuration list for PBXNativeTarget "CrownSpinTests" */;
+			buildPhases = (
+				AABB00060000000000000001 /* Sources */,
+				AABB00030000000000000001 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CrownSpinTests;
+			productName = CrownSpinTests;
+			productReference = AABB00020000000000000010 /* CrownSpinTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -177,6 +222,9 @@
 						CreatedOnToolsVersion = 15.0;
 					};
 					DFF9BB602F3589000041DFEE = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					AABB00050000000000000001 = {
 						CreatedOnToolsVersion = 15.0;
 					};
 				};
@@ -196,6 +244,7 @@
 			targets = (
 				C01234570000000000000001 /* CrownSpin Watch App */,
 				DFF9BB602F3589000041DFEE /* CrownSpin Complication */,
+				AABB00050000000000000001 /* CrownSpinTests */,
 			);
 		};
 /* End PBXProject section */
@@ -240,6 +289,19 @@
 				DFF9BB542F3589000041DFEE /* ComplicationBundle.swift in Sources */,
 				DFF9BB552F3589000041DFEE /* CrownSpinComplication.swift in Sources */,
 				DFF9BB562F3589000041DFEE /* HapticPattern.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AABB00060000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AABB00010000000000000004 /* HapticPattern.swift in Sources */,
+				AABB00010000000000000005 /* HapticStats.swift in Sources */,
+				AABB00010000000000000006 /* CrownSpinComplication.swift in Sources */,
+				AABB00010000000000000001 /* HapticPatternTests.swift in Sources */,
+				AABB00010000000000000002 /* HapticStatsTests.swift in Sources */,
+				AABB00010000000000000003 /* CrownSpinComplicationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -484,6 +546,40 @@
 			};
 			name = Release;
 		};
+		AABB00070000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xcv58.crownspin.watchapp.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		AABB00070000000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xcv58.crownspin.watchapp.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -510,6 +606,15 @@
 			buildConfigurations = (
 				DFF9BB612F3589000041DFEE /* Debug */,
 				DFF9BB622F3589000041DFEE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AABB00080000000000000001 /* Build configuration list for PBXNativeTarget "CrownSpinTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AABB00070000000000000001 /* Debug */,
+				AABB00070000000000000002 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
