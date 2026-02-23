@@ -199,6 +199,26 @@ final class CrownSpinComplicationTests: XCTestCase {
         XCTAssertEqual(formatItemNumber(-2_000_000), "-2.0M")
     }
 
+    func testFormatItemNumberBillionsAndTrillions() {
+        XCTAssertEqual(formatItemNumber(999_949_999), "999.9M")
+        XCTAssertEqual(formatItemNumber(999_950_000), "1.0B")
+        XCTAssertEqual(formatItemNumber(1_000_000_000), "1.0B")
+        XCTAssertEqual(formatItemNumber(100_000_000_000), "100.0B")
+        XCTAssertEqual(formatItemNumber(-5_000_000_000), "-5.0B")
+        XCTAssertEqual(formatItemNumber(999_950_000_000), "1.0T")
+        XCTAssertEqual(formatItemNumber(1_000_000_000_000), "1.0T")
+        XCTAssertEqual(formatItemNumber(-1_000_000_000_000), "-1.0T")
+    }
+
+    func testFormatItemNumberExtremeBounds() {
+        // Int.min must not crash (abs(Int.min) would overflow)
+        let result = formatItemNumber(Int.min)
+        XCTAssertFalse(result.isEmpty)
+        // Int.max should format without crashing
+        let maxResult = formatItemNumber(Int.max)
+        XCTAssertFalse(maxResult.isEmpty)
+    }
+
     // MARK: - formatHapticNumber
 
     func testFormatHapticNumberSmallValues() {
@@ -222,5 +242,13 @@ final class CrownSpinComplicationTests: XCTestCase {
         XCTAssertEqual(formatHapticNumber(1_000_000), "1.0M")
         XCTAssertEqual(formatHapticNumber(1_500_000), "1.5M")
         XCTAssertEqual(formatHapticNumber(25_000_000), "25.0M")
+    }
+
+    func testFormatHapticNumberBillionsAndTrillions() {
+        XCTAssertEqual(formatHapticNumber(999_950_000), "1.0B")
+        XCTAssertEqual(formatHapticNumber(1_000_000_000), "1.0B")
+        XCTAssertEqual(formatHapticNumber(100_000_000_000), "100.0B")
+        XCTAssertEqual(formatHapticNumber(999_950_000_000), "1.0T")
+        XCTAssertEqual(formatHapticNumber(1_000_000_000_000), "1.0T")
     }
 }
