@@ -9,11 +9,13 @@ final class CrownSpinComplicationTests: XCTestCase {
         super.setUp()
         sharedDefaults?.removeObject(forKey: "stats.totalHaptics")
         sharedDefaults?.removeObject(forKey: "selectedHapticPattern")
+        sharedDefaults?.removeObject(forKey: "currentItemNumber")
     }
 
     override func tearDown() {
         sharedDefaults?.removeObject(forKey: "stats.totalHaptics")
         sharedDefaults?.removeObject(forKey: "selectedHapticPattern")
+        sharedDefaults?.removeObject(forKey: "currentItemNumber")
         super.tearDown()
     }
 
@@ -25,12 +27,14 @@ final class CrownSpinComplicationTests: XCTestCase {
             date: date,
             totalHaptics: 42,
             currentPattern: "Heavy",
-            patternIcon: "hammer"
+            patternIcon: "hammer",
+            currentItemNumber: 7
         )
         XCTAssertEqual(entry.date, date)
         XCTAssertEqual(entry.totalHaptics, 42)
         XCTAssertEqual(entry.currentPattern, "Heavy")
         XCTAssertEqual(entry.patternIcon, "hammer")
+        XCTAssertEqual(entry.currentItemNumber, 7)
     }
 
     func testEntryDefaultValues() {
@@ -38,11 +42,13 @@ final class CrownSpinComplicationTests: XCTestCase {
             date: Date(),
             totalHaptics: 0,
             currentPattern: "Clicks",
-            patternIcon: "hand.tap"
+            patternIcon: "hand.tap",
+            currentItemNumber: 0
         )
         XCTAssertEqual(entry.totalHaptics, 0)
         XCTAssertEqual(entry.currentPattern, "Clicks")
         XCTAssertEqual(entry.patternIcon, "hand.tap")
+        XCTAssertEqual(entry.currentItemNumber, 0)
     }
 
     // MARK: - CrownSpinProvider.createEntry
@@ -53,6 +59,7 @@ final class CrownSpinComplicationTests: XCTestCase {
         XCTAssertEqual(entry.totalHaptics, 0)
         XCTAssertEqual(entry.currentPattern, "Clicks")
         XCTAssertEqual(entry.patternIcon, "hand.tap")
+        XCTAssertEqual(entry.currentItemNumber, 0)
     }
 
     func testCreateEntryReadsFromSharedDefaults() {
@@ -135,10 +142,113 @@ final class CrownSpinComplicationTests: XCTestCase {
             date: Date(),
             totalHaptics: 0,
             currentPattern: "Clicks",
-            patternIcon: "hand.tap"
+            patternIcon: "hand.tap",
+            currentItemNumber: 0
         )
         // TimelineEntry requires a `date` property
         let _: Date = entry.date
         XCTAssertNotNil(entry.date)
+    }
+
+    // MARK: - Current Item Number
+
+    func testCreateEntryReadsCurrentItemNumberFromSharedDefaults() {
+        sharedDefaults?.set(99, forKey: "currentItemNumber")
+
+        let provider = CrownSpinProvider()
+        let entry = provider.createEntry()
+        XCTAssertEqual(entry.currentItemNumber, 99)
+    }
+
+    func testCreateEntryWithNegativeItemNumber() {
+        sharedDefaults?.set(-42, forKey: "currentItemNumber")
+
+        let provider = CrownSpinProvider()
+        let entry = provider.createEntry()
+        XCTAssertEqual(entry.currentItemNumber, -42)
+    }
+
+    func testCreateEntryItemNumberDefaultsToZeroWhenAbsent() {
+        let provider = CrownSpinProvider()
+        let entry = provider.createEntry()
+        XCTAssertEqual(entry.currentItemNumber, 0)
+    }
+
+    // MARK: - formatItemNumber
+
+    func testFormatItemNumberSmallValues() {
+        XCTAssertEqual(formatItemNumber(0), "0")
+        XCTAssertEqual(formatItemNumber(42), "42")
+        XCTAssertEqual(formatItemNumber(9999), "9999")
+        XCTAssertEqual(formatItemNumber(-5), "-5")
+        XCTAssertEqual(formatItemNumber(-9999), "-9999")
+    }
+
+    func testFormatItemNumberThousands() {
+        XCTAssertEqual(formatItemNumber(10_000), "10.0K")
+        XCTAssertEqual(formatItemNumber(12_500), "12.5K")
+        XCTAssertEqual(formatItemNumber(999_949), "999.9K")
+        XCTAssertEqual(formatItemNumber(-50_000), "-50.0K")
+    }
+
+    func testFormatItemNumberMillions() {
+        XCTAssertEqual(formatItemNumber(999_950), "1.0M")
+        XCTAssertEqual(formatItemNumber(1_000_000), "1.0M")
+        XCTAssertEqual(formatItemNumber(1_500_000), "1.5M")
+        XCTAssertEqual(formatItemNumber(25_000_000), "25.0M")
+        XCTAssertEqual(formatItemNumber(-2_000_000), "-2.0M")
+    }
+
+    func testFormatItemNumberBillionsAndTrillions() {
+        XCTAssertEqual(formatItemNumber(999_949_999), "999.9M")
+        XCTAssertEqual(formatItemNumber(999_950_000), "1.0B")
+        XCTAssertEqual(formatItemNumber(1_000_000_000), "1.0B")
+        XCTAssertEqual(formatItemNumber(100_000_000_000), "100.0B")
+        XCTAssertEqual(formatItemNumber(-5_000_000_000), "-5.0B")
+        XCTAssertEqual(formatItemNumber(999_950_000_000), "1.0T")
+        XCTAssertEqual(formatItemNumber(1_000_000_000_000), "1.0T")
+        XCTAssertEqual(formatItemNumber(-1_000_000_000_000), "-1.0T")
+    }
+
+    func testFormatItemNumberExtremeBounds() {
+        // Int.min must not crash (abs(Int.min) would overflow)
+        let result = formatItemNumber(Int.min)
+        XCTAssertFalse(result.isEmpty)
+        // Int.max should format without crashing
+        let maxResult = formatItemNumber(Int.max)
+        XCTAssertFalse(maxResult.isEmpty)
+    }
+
+    // MARK: - formatHapticNumber
+
+    func testFormatHapticNumberSmallValues() {
+        XCTAssertEqual(formatHapticNumber(0), "0")
+        XCTAssertEqual(formatHapticNumber(999), "999")
+    }
+
+    func testFormatHapticNumberThousands() {
+        XCTAssertEqual(formatHapticNumber(1_000), "1.0K")
+        XCTAssertEqual(formatHapticNumber(1_500), "1.5K")
+        XCTAssertEqual(formatHapticNumber(999_949), "999.9K")
+    }
+
+    func testFormatHapticNumberBoundary() {
+        // 999,950+ should show as M, not "1000.0K"
+        XCTAssertEqual(formatHapticNumber(999_950), "1.0M")
+        XCTAssertEqual(formatHapticNumber(999_999), "1.0M")
+    }
+
+    func testFormatHapticNumberMillions() {
+        XCTAssertEqual(formatHapticNumber(1_000_000), "1.0M")
+        XCTAssertEqual(formatHapticNumber(1_500_000), "1.5M")
+        XCTAssertEqual(formatHapticNumber(25_000_000), "25.0M")
+    }
+
+    func testFormatHapticNumberBillionsAndTrillions() {
+        XCTAssertEqual(formatHapticNumber(999_950_000), "1.0B")
+        XCTAssertEqual(formatHapticNumber(1_000_000_000), "1.0B")
+        XCTAssertEqual(formatHapticNumber(100_000_000_000), "100.0B")
+        XCTAssertEqual(formatHapticNumber(999_950_000_000), "1.0T")
+        XCTAssertEqual(formatHapticNumber(1_000_000_000_000), "1.0T")
     }
 }

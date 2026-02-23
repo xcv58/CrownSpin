@@ -160,7 +160,10 @@ final class HapticPatternTests: XCTestCase {
 
     func testFormatHapticNumberBelowMillion() {
         XCTAssertEqual(formatHapticNumber(1500), "1.5K")
-        XCTAssertEqual(formatHapticNumber(999999), "1000.0K")
+        XCTAssertEqual(formatHapticNumber(999_949), "999.9K")
+        // 999,950+ rounds to 1.0M to avoid displaying "1000.0K"
+        XCTAssertEqual(formatHapticNumber(999_950), "1.0M")
+        XCTAssertEqual(formatHapticNumber(999_999), "1.0M")
     }
 
     func testFormatHapticNumberAtMillion() {
@@ -169,5 +172,14 @@ final class HapticPatternTests: XCTestCase {
 
     func testFormatHapticNumberAboveMillion() {
         XCTAssertEqual(formatHapticNumber(2_500_000), "2.5M")
+    }
+
+    func testFormatHapticNumberBillions() {
+        XCTAssertEqual(formatHapticNumber(1_000_000_000), "1.0B")
+        XCTAssertEqual(formatHapticNumber(100_000_000_000), "100.0B")
+    }
+
+    func testFormatHapticNumberTrillions() {
+        XCTAssertEqual(formatHapticNumber(1_000_000_000_000), "1.0T")
     }
 }

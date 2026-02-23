@@ -95,12 +95,37 @@ enum HapticPattern: String, CaseIterable, Identifiable {
     }
 }
 
+/// Formats a large number compactly: 1500 → "1.5K", 2000000 → "2.0M", 1B → "1.0B"
+/// Thresholds use rounding-safe boundaries to avoid "1000.0X" display artifacts.
+private func formatCompact(_ value: Int) -> String {
+    let d = Double(value)
+    if value >= 999_950_000_000 {
+        return String(format: "%.1fT", d / 1_000_000_000_000)
+    } else if value >= 999_950_000 {
+        return String(format: "%.1fB", d / 1_000_000_000)
+    } else if value >= 999_950 {
+        return String(format: "%.1fM", d / 1_000_000)
+    } else if value >= 1_000 {
+        return String(format: "%.1fK", d / 1_000)
+    }
+    return "\(value)"
+}
+
 /// Formats a haptic count for display (e.g. 1500 → "1.5K", 2000000 → "2.0M")
 func formatHapticNumber(_ num: Int) -> String {
-    if num >= 1_000_000 {
-        return String(format: "%.1fM", Double(num) / 1_000_000)
-    } else if num >= 1_000 {
-        return String(format: "%.1fK", Double(num) / 1_000)
+    formatCompact(num)
+}
+
+/// Formats an item number for compact display, handling large/negative values
+/// e.g. 42 → "42", 12500 → "12.5K", -1500000 → "-1.5M"
+func formatItemNumber(_ num: Int) -> String {
+    // Guard against Int.min where abs() would overflow
+    guard num != Int.min else { return "-9.2E" }
+    let magnitude = abs(num)
+    let sign = num < 0 ? "-" : ""
+    let formatted = formatCompact(magnitude)
+    if magnitude >= 10_000 {
+        return sign + formatted
     }
     return "\(num)"
 }
