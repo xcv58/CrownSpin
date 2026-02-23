@@ -35,6 +35,8 @@ struct ContentView: View {
     // UI state
     @State private var showPatternPicker: Bool = false
     @State private var showStats: Bool = false
+    @State private var showResetConfirmation: Bool = false
+    @State private var showMenu: Bool = false
     @State private var isAmbientMode: Bool = false
 
     // Stats
@@ -81,9 +83,7 @@ struct ContentView: View {
                                     .onEnded { _ in
                                         if scrollPosition == index {
                                             WKInterfaceDevice.current().play(.notification)
-                                            baseOffset = 0
-                                            lastPosition = Constants.windowCenter
-                                            scrollPosition = Constants.windowCenter
+                                            showResetConfirmation = true
                                         }
                                     }
                             )
@@ -119,6 +119,52 @@ struct ContentView: View {
         }
         .sheet(isPresented: $showStats) {
             StatsView(stats: stats)
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    showMenu = true
+                } label: {
+                    Image(systemName: "ellipsis.circle")
+                }
+            }
+        }
+        .sheet(isPresented: $showMenu) {
+            List {
+                Button {
+                    showMenu = false
+                    showPatternPicker = true
+                } label: {
+                    Label("Effects", systemImage: "waveform")
+                }
+                Button {
+                    showMenu = false
+                    showStats = true
+                } label: {
+                    Label("Statistics", systemImage: "chart.bar")
+                }
+                Button {
+                    showMenu = false
+                    toggleAmbientMode()
+                } label: {
+                    Label(isAmbientMode ? "Normal Mode" : "Ambient Mode", systemImage: isAmbientMode ? "sun.max" : "moon")
+                }
+            }
+        }
+        .confirmationDialog("Reset to 0?", isPresented: $showResetConfirmation) {
+            Button("Reset", role: .destructive) {
+                baseOffset = 0
+                lastPosition = Constants.windowCenter
+                scrollPosition = Constants.windowCenter
+            }
+            Button("Cancel", role: .cancel) {}
+        }
+        .onChange(of: isScrolling) { _, spinning in
+            if spinning {
+                stats.startSpinning()
+            } else {
+                stats.stopSpinning()
+            }
         }
         .onAppear {
             loadSettings()
@@ -166,25 +212,6 @@ struct ContentView: View {
         }, onPressingChanged: { _ in })
         .onTapGesture {
             nextPattern()
-        }
-        .contextMenu {
-            Button {
-                showPatternPicker = true
-            } label: {
-                Label("Effects", systemImage: "waveform")
-            }
-
-            Button {
-                showStats = true
-            } label: {
-                Label("Statistics", systemImage: "chart.bar")
-            }
-
-            Button {
-                toggleAmbientMode()
-            } label: {
-                Label(isAmbientMode ? "Normal Mode" : "Ambient Mode", systemImage: isAmbientMode ? "sun.max" : "moon")
-            }
         }
     }
 
