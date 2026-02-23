@@ -7,6 +7,7 @@ struct CrownSpinEntry: TimelineEntry {
     let totalHaptics: Int
     let currentPattern: String
     let patternIcon: String
+    let currentItemNumber: Int
 }
 
 /// Provider for complication timeline
@@ -14,7 +15,7 @@ struct CrownSpinProvider: TimelineProvider {
     private static let sharedDefaults = UserDefaults(suiteName: appGroupSuiteName)
 
     func placeholder(in context: Context) -> CrownSpinEntry {
-        CrownSpinEntry(date: Date(), totalHaptics: 0, currentPattern: "Clicks", patternIcon: "hand.tap")
+        CrownSpinEntry(date: Date(), totalHaptics: 0, currentPattern: "Clicks", patternIcon: "hand.tap", currentItemNumber: 0)
     }
 
     func getSnapshot(in context: Context, completion: @escaping (CrownSpinEntry) -> Void) {
@@ -34,12 +35,14 @@ struct CrownSpinProvider: TimelineProvider {
         let totalHaptics = defaults?.integer(forKey: "stats.totalHaptics") ?? 0
         let patternRaw = defaults?.string(forKey: "selectedHapticPattern") ?? "clicks"
         let pattern = HapticPattern(rawValue: patternRaw) ?? .clicks
+        let currentItemNumber = defaults?.integer(forKey: "currentItemNumber") ?? 0
 
         return CrownSpinEntry(
             date: Date(),
             totalHaptics: totalHaptics,
             currentPattern: pattern.displayName,
-            patternIcon: pattern.icon
+            patternIcon: pattern.icon,
+            currentItemNumber: currentItemNumber
         )
     }
 }
@@ -67,11 +70,13 @@ struct CrownSpinComplicationEntryView: View {
     private var circularView: some View {
         ZStack {
             AccessoryWidgetBackground()
-            VStack(spacing: 2) {
+            VStack(spacing: 1) {
                 Image(systemName: entry.patternIcon)
-                    .font(.system(size: 16))
+                    .font(.system(size: 12))
+                Text("\(entry.currentItemNumber)")
+                    .font(.system(size: 12, weight: .bold, design: .monospaced))
                 Text(formatHapticNumber(entry.totalHaptics))
-                    .font(.system(size: 12, weight: .semibold, design: .rounded))
+                    .font(.system(size: 9, design: .rounded))
             }
         }
     }
@@ -83,6 +88,8 @@ struct CrownSpinComplicationEntryView: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text("CrownSpin")
                     .font(.system(size: 12, weight: .semibold))
+                Text("Item \(entry.currentItemNumber)")
+                    .font(.system(size: 11, weight: .medium, design: .monospaced))
                 Text("\(formatHapticNumber(entry.totalHaptics)) haptics")
                     .font(.system(size: 11))
                     .foregroundColor(.secondary)
@@ -97,14 +104,14 @@ struct CrownSpinComplicationEntryView: View {
                 .font(.system(size: 20))
         }
         .widgetLabel {
-            Text(formatHapticNumber(entry.totalHaptics))
+            Text("#\(entry.currentItemNumber) · \(formatHapticNumber(entry.totalHaptics))")
         }
     }
 
     private var inlineView: some View {
         HStack(spacing: 4) {
             Image(systemName: entry.patternIcon)
-            Text("\(formatHapticNumber(entry.totalHaptics)) haptics")
+            Text("#\(entry.currentItemNumber) · \(formatHapticNumber(entry.totalHaptics)) haptics")
         }
     }
 
@@ -133,5 +140,5 @@ struct CrownSpinComplication: Widget {
 #Preview(as: .accessoryCircular) {
     CrownSpinComplication()
 } timeline: {
-    CrownSpinEntry(date: Date(), totalHaptics: 1234, currentPattern: "Clicks", patternIcon: "hand.tap")
+    CrownSpinEntry(date: Date(), totalHaptics: 1234, currentPattern: "Clicks", patternIcon: "hand.tap", currentItemNumber: 42)
 }

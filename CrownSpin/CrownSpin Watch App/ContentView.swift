@@ -199,6 +199,8 @@ struct ContentView: View {
                 startScrolling()
             }
             checkAndRebalance(newPos)
+            let displayNumber = (scrollPosition ?? Constants.windowCenter) - Constants.windowCenter + baseOffset
+            Self.sharedDefaults?.set(displayNumber, forKey: "currentItemNumber")
         }
     }
 

@@ -9,11 +9,13 @@ final class CrownSpinComplicationTests: XCTestCase {
         super.setUp()
         sharedDefaults?.removeObject(forKey: "stats.totalHaptics")
         sharedDefaults?.removeObject(forKey: "selectedHapticPattern")
+        sharedDefaults?.removeObject(forKey: "currentItemNumber")
     }
 
     override func tearDown() {
         sharedDefaults?.removeObject(forKey: "stats.totalHaptics")
         sharedDefaults?.removeObject(forKey: "selectedHapticPattern")
+        sharedDefaults?.removeObject(forKey: "currentItemNumber")
         super.tearDown()
     }
 
@@ -25,12 +27,14 @@ final class CrownSpinComplicationTests: XCTestCase {
             date: date,
             totalHaptics: 42,
             currentPattern: "Heavy",
-            patternIcon: "hammer"
+            patternIcon: "hammer",
+            currentItemNumber: 7
         )
         XCTAssertEqual(entry.date, date)
         XCTAssertEqual(entry.totalHaptics, 42)
         XCTAssertEqual(entry.currentPattern, "Heavy")
         XCTAssertEqual(entry.patternIcon, "hammer")
+        XCTAssertEqual(entry.currentItemNumber, 7)
     }
 
     func testEntryDefaultValues() {
@@ -38,11 +42,13 @@ final class CrownSpinComplicationTests: XCTestCase {
             date: Date(),
             totalHaptics: 0,
             currentPattern: "Clicks",
-            patternIcon: "hand.tap"
+            patternIcon: "hand.tap",
+            currentItemNumber: 0
         )
         XCTAssertEqual(entry.totalHaptics, 0)
         XCTAssertEqual(entry.currentPattern, "Clicks")
         XCTAssertEqual(entry.patternIcon, "hand.tap")
+        XCTAssertEqual(entry.currentItemNumber, 0)
     }
 
     // MARK: - CrownSpinProvider.createEntry
@@ -53,6 +59,7 @@ final class CrownSpinComplicationTests: XCTestCase {
         XCTAssertEqual(entry.totalHaptics, 0)
         XCTAssertEqual(entry.currentPattern, "Clicks")
         XCTAssertEqual(entry.patternIcon, "hand.tap")
+        XCTAssertEqual(entry.currentItemNumber, 0)
     }
 
     func testCreateEntryReadsFromSharedDefaults() {
@@ -135,10 +142,35 @@ final class CrownSpinComplicationTests: XCTestCase {
             date: Date(),
             totalHaptics: 0,
             currentPattern: "Clicks",
-            patternIcon: "hand.tap"
+            patternIcon: "hand.tap",
+            currentItemNumber: 0
         )
         // TimelineEntry requires a `date` property
         let _: Date = entry.date
         XCTAssertNotNil(entry.date)
+    }
+
+    // MARK: - Current Item Number
+
+    func testCreateEntryReadsCurrentItemNumberFromSharedDefaults() {
+        sharedDefaults?.set(99, forKey: "currentItemNumber")
+
+        let provider = CrownSpinProvider()
+        let entry = provider.createEntry()
+        XCTAssertEqual(entry.currentItemNumber, 99)
+    }
+
+    func testCreateEntryWithNegativeItemNumber() {
+        sharedDefaults?.set(-42, forKey: "currentItemNumber")
+
+        let provider = CrownSpinProvider()
+        let entry = provider.createEntry()
+        XCTAssertEqual(entry.currentItemNumber, -42)
+    }
+
+    func testCreateEntryItemNumberDefaultsToZeroWhenAbsent() {
+        let provider = CrownSpinProvider()
+        let entry = provider.createEntry()
+        XCTAssertEqual(entry.currentItemNumber, 0)
     }
 }
