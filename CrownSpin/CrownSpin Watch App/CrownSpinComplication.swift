@@ -25,7 +25,7 @@ struct CrownSpinProvider: TimelineProvider {
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<CrownSpinEntry>) -> Void) {
         let entry = createEntry()
-        let nextUpdate = Calendar.current.date(byAdding: .hour, value: 1, to: Date()) ?? Date()
+        let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date()) ?? Date()
         let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
         completion(timeline)
     }

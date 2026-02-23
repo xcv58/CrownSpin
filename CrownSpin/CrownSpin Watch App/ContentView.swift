@@ -1,5 +1,8 @@
 import SwiftUI
 import WatchKit
+#if canImport(WidgetKit)
+import WidgetKit
+#endif
 
 struct ContentView: View {
     // MARK: - Constants
@@ -215,6 +218,9 @@ struct ContentView: View {
         scrollTimer = Timer.scheduledTimer(withTimeInterval: Constants.idleDelay, repeats: false) { _ in
             DispatchQueue.main.async {
                 isScrolling = false
+                #if canImport(WidgetKit)
+                WidgetCenter.shared.reloadAllTimelines()
+                #endif
             }
         }
     }
