@@ -24,7 +24,7 @@
 		DFF9BB552F3589000041DFEE /* CrownSpinComplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF9BB3C2F3588300041DFEE /* CrownSpinComplication.swift */; };
 		DFF9BB562F3589000041DFEE /* HapticPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01234550000000000000004 /* HapticPattern.swift */; };
 		DFF9BB572F3589000041DFEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DFF9BB512F3589000041DFEE /* Assets.xcassets */; };
-		DFF9BB582F3589000041DFEE /* CrownSpin Complication.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = DFF9BB522F3589000041DFEE /* CrownSpin Complication.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		DFF9BB582F3589000041DFEE /* CrownSpin Complication.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = DFF9BB522F3589000041DFEE /* CrownSpin Complication.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,15 +38,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		DFF9BB5D2F3589000041DFEE /* Embed App Extensions */ = {
+		DFF9BB5D2F3589000041DFEE /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				DFF9BB582F3589000041DFEE /* CrownSpin Complication.appex in Embed App Extensions */,
+				DFF9BB582F3589000041DFEE /* CrownSpin Complication.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -183,7 +183,7 @@
 				C01234580000000000000002 /* Sources */,
 				C01234580000000000000001 /* Frameworks */,
 				C01234580000000000000003 /* Resources */,
-				DFF9BB5D2F3589000041DFEE /* Embed App Extensions */,
+				DFF9BB5D2F3589000041DFEE /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -220,7 +220,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 2620;
 				TargetAttributes = {
 					AABB00050000000000000001 = {
 						CreatedOnToolsVersion = 15.0;
@@ -450,6 +450,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -472,6 +473,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -511,6 +513,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -526,6 +529,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
