@@ -9,6 +9,7 @@ struct ContentView: View {
     private enum Constants {
         static let patternKey = "selectedHapticPattern"
         static let ambientModeKey = "ambientModeEnabled"
+        static let baseOffsetKey = "baseOffset"
         static let windowSize = 1000
         static let windowCenter = 500
         static let rebalanceThreshold = 100
@@ -154,6 +155,7 @@ struct ContentView: View {
         .confirmationDialog("Reset to 0?", isPresented: $showResetConfirmation) {
             Button("Reset", role: .destructive) {
                 baseOffset = 0
+                UserDefaults.standard.set(0, forKey: Constants.baseOffsetKey)
                 lastPosition = Constants.windowCenter
                 scrollPosition = Constants.windowCenter
             }
@@ -256,6 +258,7 @@ struct ContentView: View {
         if position < Constants.rebalanceThreshold || position > Constants.windowSize - Constants.rebalanceThreshold {
             let offsetFromCenter = position - Constants.windowCenter
             baseOffset += offsetFromCenter
+            UserDefaults.standard.set(baseOffset, forKey: Constants.baseOffsetKey)
             lastPosition = Constants.windowCenter
             scrollPosition = Constants.windowCenter
         }
@@ -317,6 +320,7 @@ struct ContentView: View {
             currentPattern = pattern
         }
         isAmbientMode = UserDefaults.standard.bool(forKey: Constants.ambientModeKey)
+        baseOffset = UserDefaults.standard.integer(forKey: Constants.baseOffsetKey)
         // Sync current pattern to shared defaults for the complication
         Self.sharedDefaults?.set(currentPattern.rawValue, forKey: Constants.patternKey)
     }
