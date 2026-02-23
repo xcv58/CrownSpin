@@ -173,4 +173,54 @@ final class CrownSpinComplicationTests: XCTestCase {
         let entry = provider.createEntry()
         XCTAssertEqual(entry.currentItemNumber, 0)
     }
+
+    // MARK: - formatItemNumber
+
+    func testFormatItemNumberSmallValues() {
+        XCTAssertEqual(formatItemNumber(0), "0")
+        XCTAssertEqual(formatItemNumber(42), "42")
+        XCTAssertEqual(formatItemNumber(9999), "9999")
+        XCTAssertEqual(formatItemNumber(-5), "-5")
+        XCTAssertEqual(formatItemNumber(-9999), "-9999")
+    }
+
+    func testFormatItemNumberThousands() {
+        XCTAssertEqual(formatItemNumber(10_000), "10.0K")
+        XCTAssertEqual(formatItemNumber(12_500), "12.5K")
+        XCTAssertEqual(formatItemNumber(999_949), "999.9K")
+        XCTAssertEqual(formatItemNumber(-50_000), "-50.0K")
+    }
+
+    func testFormatItemNumberMillions() {
+        XCTAssertEqual(formatItemNumber(999_950), "1.0M")
+        XCTAssertEqual(formatItemNumber(1_000_000), "1.0M")
+        XCTAssertEqual(formatItemNumber(1_500_000), "1.5M")
+        XCTAssertEqual(formatItemNumber(25_000_000), "25.0M")
+        XCTAssertEqual(formatItemNumber(-2_000_000), "-2.0M")
+    }
+
+    // MARK: - formatHapticNumber
+
+    func testFormatHapticNumberSmallValues() {
+        XCTAssertEqual(formatHapticNumber(0), "0")
+        XCTAssertEqual(formatHapticNumber(999), "999")
+    }
+
+    func testFormatHapticNumberThousands() {
+        XCTAssertEqual(formatHapticNumber(1_000), "1.0K")
+        XCTAssertEqual(formatHapticNumber(1_500), "1.5K")
+        XCTAssertEqual(formatHapticNumber(999_949), "999.9K")
+    }
+
+    func testFormatHapticNumberBoundary() {
+        // 999,950+ should show as M, not "1000.0K"
+        XCTAssertEqual(formatHapticNumber(999_950), "1.0M")
+        XCTAssertEqual(formatHapticNumber(999_999), "1.0M")
+    }
+
+    func testFormatHapticNumberMillions() {
+        XCTAssertEqual(formatHapticNumber(1_000_000), "1.0M")
+        XCTAssertEqual(formatHapticNumber(1_500_000), "1.5M")
+        XCTAssertEqual(formatHapticNumber(25_000_000), "25.0M")
+    }
 }

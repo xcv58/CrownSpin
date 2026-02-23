@@ -73,10 +73,12 @@ struct CrownSpinComplicationEntryView: View {
             VStack(spacing: 1) {
                 Image(systemName: entry.patternIcon)
                     .font(.system(size: 12))
-                Text("\(entry.currentItemNumber)")
+                Text(formatItemNumber(entry.currentItemNumber))
                     .font(.system(size: 12, weight: .bold, design: .monospaced))
+                    .minimumScaleFactor(0.6)
                 Text(formatHapticNumber(entry.totalHaptics))
                     .font(.system(size: 9, design: .rounded))
+                    .minimumScaleFactor(0.6)
             }
         }
     }
@@ -88,8 +90,9 @@ struct CrownSpinComplicationEntryView: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text("CrownSpin")
                     .font(.system(size: 12, weight: .semibold))
-                Text("Item \(entry.currentItemNumber)")
+                Text("Item \(formatItemNumber(entry.currentItemNumber))")
                     .font(.system(size: 11, weight: .medium, design: .monospaced))
+                    .minimumScaleFactor(0.7)
                 Text("\(formatHapticNumber(entry.totalHaptics)) haptics")
                     .font(.system(size: 11))
                     .foregroundColor(.secondary)
@@ -104,14 +107,14 @@ struct CrownSpinComplicationEntryView: View {
                 .font(.system(size: 20))
         }
         .widgetLabel {
-            Text("#\(entry.currentItemNumber) · \(formatHapticNumber(entry.totalHaptics))")
+            Text("#\(formatItemNumber(entry.currentItemNumber)) · \(formatHapticNumber(entry.totalHaptics))")
         }
     }
 
     private var inlineView: some View {
         HStack(spacing: 4) {
             Image(systemName: entry.patternIcon)
-            Text("#\(entry.currentItemNumber) · \(formatHapticNumber(entry.totalHaptics)) haptics")
+            Text("#\(formatItemNumber(entry.currentItemNumber)) · \(formatHapticNumber(entry.totalHaptics)) haptics")
         }
     }
 
