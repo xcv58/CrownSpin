@@ -116,6 +116,20 @@ func formatHapticNumber(_ num: Int) -> String {
     formatCompact(num)
 }
 
+/// Formats a duration in seconds for display (e.g. 45 → "45s", 3723 → "1h 2m", 7200 → "2h 0m")
+func formatDuration(_ seconds: TimeInterval) -> String {
+    let total = Int(seconds)
+    if total < 60 {
+        return "\(total)s"
+    }
+    let hours = total / 3600
+    let minutes = (total % 3600) / 60
+    if hours > 0 {
+        return "\(hours)h \(minutes)m"
+    }
+    return "\(minutes)m"
+}
+
 /// Formats an item number for compact display, handling large/negative values
 /// e.g. 42 → "42", 12500 → "12.5K", -1500000 → "-1.5M"
 func formatItemNumber(_ num: Int) -> String {

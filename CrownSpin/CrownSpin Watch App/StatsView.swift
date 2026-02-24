@@ -30,6 +30,30 @@ struct StatsView: View {
                     label: "Sessions",
                     value: "\(stats.totalSessions)"
                 )
+
+                StatRow(
+                    icon: "gauge.with.needle",
+                    label: "Peak Speed",
+                    value: stats.formattedPeakSpeed
+                )
+
+                StatRow(
+                    icon: "divide",
+                    label: "Avg Session",
+                    value: stats.formattedAvgSession
+                )
+
+                StatRow(
+                    icon: "flame",
+                    label: "Streak",
+                    value: stats.formattedStreak
+                )
+
+                StatRow(
+                    icon: "timer",
+                    label: "Time Spinning",
+                    value: stats.formattedSpinTime
+                )
             }
             .padding(.horizontal)
         }

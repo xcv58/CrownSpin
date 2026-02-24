@@ -9,7 +9,10 @@ final class HapticStatsTests: XCTestCase {
         "stats.sessionHaptics",
         "stats.longestSession",
         "stats.totalSessions",
-        "stats.lastSessionDate"
+        "stats.lastSessionDate",
+        "stats.peakSpeed",
+        "stats.currentStreak",
+        "stats.totalSpinTime"
     ]
 
     override func setUp() {
@@ -42,6 +45,9 @@ final class HapticStatsTests: XCTestCase {
         XCTAssertEqual(stats.sessionHaptics, 0)
         XCTAssertEqual(stats.longestSession, 0)
         XCTAssertEqual(stats.totalSessions, 0)
+        XCTAssertEqual(stats.peakSpeed, 0)
+        XCTAssertEqual(stats.currentStreak, 0)
+        XCTAssertEqual(stats.totalSpinTime, 0)
     }
 
     // MARK: - recordHaptic
@@ -159,6 +165,9 @@ final class HapticStatsTests: XCTestCase {
         XCTAssertEqual(stats.sessionHaptics, 0)
         XCTAssertEqual(stats.longestSession, 0)
         XCTAssertEqual(stats.totalSessions, 0)
+        XCTAssertEqual(stats.peakSpeed, 0)
+        XCTAssertEqual(stats.currentStreak, 0)
+        XCTAssertEqual(stats.totalSpinTime, 0)
     }
 
     // MARK: - Full Session Lifecycle
@@ -241,5 +250,207 @@ final class HapticStatsTests: XCTestCase {
         // since sessionHaptics has no didSet that writes to UserDefaults
         UserDefaults.standard.removeObject(forKey: "stats.sessionHaptics")
         XCTAssertEqual(UserDefaults.standard.integer(forKey: "stats.sessionHaptics"), 0)
+    }
+
+    // MARK: - Peak Speed
+
+    func testPeakSpeedStartsAtZero() {
+        XCTAssertEqual(stats.peakSpeed, 0)
+    }
+
+    func testPeakSpeedUpdatesOnRapidHaptics() {
+        // Rapid haptics should produce a measurable speed
+        for _ in 0..<10 { stats.recordHaptic() }
+        XCTAssertGreaterThan(stats.peakSpeed, 0)
+    }
+
+    func testPeakSpeedOnlyIncreases() {
+        // Record rapid haptics to establish a peak
+        for _ in 0..<20 { stats.recordHaptic() }
+        let peak = stats.peakSpeed
+        XCTAssertGreaterThan(peak, 0)
+
+        // Wait beyond the speed window so new haptics are slower
+        Thread.sleep(forTimeInterval: 0.6)
+        stats.recordHaptic()
+
+        // Peak should not decrease
+        XCTAssertGreaterThanOrEqual(stats.peakSpeed, peak)
+    }
+
+    func testFormattedPeakSpeedZero() {
+        XCTAssertEqual(stats.formattedPeakSpeed, "0")
+    }
+
+    func testFormattedPeakSpeedNonZero() {
+        for _ in 0..<10 { stats.recordHaptic() }
+        XCTAssertTrue(stats.formattedPeakSpeed.hasSuffix("/sec"))
+    }
+
+    func testPeakSpeedPersistsToUserDefaults() {
+        for _ in 0..<10 { stats.recordHaptic() }
+        XCTAssertGreaterThan(UserDefaults.standard.double(forKey: "stats.peakSpeed"), 0)
+    }
+
+    // MARK: - Streak
+
+    func testStreakFirstSession() {
+        stats.startSession()
+        XCTAssertEqual(stats.currentStreak, 1)
+    }
+
+    func testStreakSameDayDoesNotIncrement() {
+        stats.startSession()
+        XCTAssertEqual(stats.currentStreak, 1)
+        // Another session same day
+        stats.startSession()
+        XCTAssertEqual(stats.currentStreak, 1)
+    }
+
+    func testStreakConsecutiveDay() {
+        stats.startSession()
+        XCTAssertEqual(stats.currentStreak, 1)
+
+        // Simulate yesterday's date
+        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Calendar.current.startOfDay(for: Date()))!
+        UserDefaults.standard.set(yesterday.timeIntervalSince1970, forKey: "stats.lastSessionDate")
+
+        stats.startSession()
+        XCTAssertEqual(stats.currentStreak, 2)
+    }
+
+    func testStreakResetsAfterGap() {
+        stats.startSession()
+        XCTAssertEqual(stats.currentStreak, 1)
+
+        // Simulate 3 days ago
+        let threeDaysAgo = Calendar.current.date(byAdding: .day, value: -3, to: Calendar.current.startOfDay(for: Date()))!
+        UserDefaults.standard.set(threeDaysAgo.timeIntervalSince1970, forKey: "stats.lastSessionDate")
+
+        stats.startSession()
+        XCTAssertEqual(stats.currentStreak, 1)
+    }
+
+    func testFormattedStreakSingular() {
+        stats.startSession()
+        XCTAssertEqual(stats.formattedStreak, "1 day")
+    }
+
+    func testFormattedStreakPlural() {
+        stats.startSession()
+        // Simulate yesterday
+        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Calendar.current.startOfDay(for: Date()))!
+        UserDefaults.standard.set(yesterday.timeIntervalSince1970, forKey: "stats.lastSessionDate")
+        stats.startSession()
+        XCTAssertEqual(stats.formattedStreak, "2 days")
+    }
+
+    func testStreakPersistsToUserDefaults() {
+        stats.startSession()
+        XCTAssertEqual(UserDefaults.standard.integer(forKey: "stats.currentStreak"), 1)
+    }
+
+    func testResetClearsStreak() {
+        stats.startSession()
+        XCTAssertEqual(stats.currentStreak, 1)
+        stats.resetStats()
+        XCTAssertEqual(stats.currentStreak, 0)
+    }
+
+    // MARK: - Spin Time
+
+    func testSpinTimeStartsAtZero() {
+        XCTAssertEqual(stats.totalSpinTime, 0)
+    }
+
+    func testSpinTimeAccumulates() {
+        stats.startSpinning()
+        Thread.sleep(forTimeInterval: 0.1)
+        stats.stopSpinning()
+        XCTAssertGreaterThan(stats.totalSpinTime, 0)
+    }
+
+    func testSpinTimeAccumulatesAcrossMultipleSpins() {
+        stats.startSpinning()
+        Thread.sleep(forTimeInterval: 0.1)
+        stats.stopSpinning()
+        let first = stats.totalSpinTime
+
+        stats.startSpinning()
+        Thread.sleep(forTimeInterval: 0.1)
+        stats.stopSpinning()
+        XCTAssertGreaterThan(stats.totalSpinTime, first)
+    }
+
+    func testStopSpinningWithoutStartIsNoOp() {
+        stats.stopSpinning()
+        XCTAssertEqual(stats.totalSpinTime, 0)
+    }
+
+    func testDoubleStartSpinningIgnoresSecond() {
+        stats.startSpinning()
+        Thread.sleep(forTimeInterval: 0.1)
+        stats.startSpinning() // should be ignored
+        Thread.sleep(forTimeInterval: 0.1)
+        stats.stopSpinning()
+        // Should have ~0.2s, not reset at second startSpinning
+        XCTAssertGreaterThan(stats.totalSpinTime, 0.15)
+    }
+
+    func testEndSessionStopsSpinning() {
+        stats.startSpinning()
+        Thread.sleep(forTimeInterval: 0.1)
+        stats.endSession()
+        let time = stats.totalSpinTime
+        XCTAssertGreaterThan(time, 0)
+        // Calling stop again should not change anything
+        stats.stopSpinning()
+        XCTAssertEqual(stats.totalSpinTime, time)
+    }
+
+    func testSpinTimePersistsToUserDefaults() {
+        stats.startSpinning()
+        Thread.sleep(forTimeInterval: 0.1)
+        stats.stopSpinning()
+        XCTAssertGreaterThan(UserDefaults.standard.double(forKey: "stats.totalSpinTime"), 0)
+    }
+
+    // MARK: - Average Session
+
+    func testFormattedAvgSessionZeroSessions() {
+        XCTAssertEqual(stats.formattedAvgSession, "0")
+    }
+
+    func testFormattedAvgSessionCalculation() {
+        stats.startSession()
+        for _ in 0..<10 { stats.recordHaptic() }
+        stats.endSession()
+
+        stats.startSession()
+        for _ in 0..<20 { stats.recordHaptic() }
+        stats.endSession()
+
+        // 30 total / 2 sessions = 15
+        XCTAssertEqual(stats.formattedAvgSession, "15")
+    }
+
+    // MARK: - formatDuration
+
+    func testFormatDurationSeconds() {
+        XCTAssertEqual(formatDuration(0), "0s")
+        XCTAssertEqual(formatDuration(45), "45s")
+        XCTAssertEqual(formatDuration(59), "59s")
+    }
+
+    func testFormatDurationMinutes() {
+        XCTAssertEqual(formatDuration(60), "1m")
+        XCTAssertEqual(formatDuration(90), "1m")
+        XCTAssertEqual(formatDuration(3599), "59m")
+    }
+
+    func testFormatDurationHours() {
+        XCTAssertEqual(formatDuration(3600), "1h 0m")
+        XCTAssertEqual(formatDuration(3723), "1h 2m")
+        XCTAssertEqual(formatDuration(7200), "2h 0m")
     }
 }

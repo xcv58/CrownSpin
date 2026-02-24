@@ -9,6 +9,7 @@ struct ContentView: View {
     private enum Constants {
         static let patternKey = "selectedHapticPattern"
         static let ambientModeKey = "ambientModeEnabled"
+        static let baseOffsetKey = "baseOffset"
         static let windowSize = 1000
         static let windowCenter = 500
         static let rebalanceThreshold = 100
@@ -35,6 +36,8 @@ struct ContentView: View {
     // UI state
     @State private var showPatternPicker: Bool = false
     @State private var showStats: Bool = false
+    @State private var showResetConfirmation: Bool = false
+    @State private var showMenu: Bool = false
     @State private var isAmbientMode: Bool = false
 
     // Stats
@@ -81,9 +84,7 @@ struct ContentView: View {
                                     .onEnded { _ in
                                         if scrollPosition == index {
                                             WKInterfaceDevice.current().play(.notification)
-                                            baseOffset = 0
-                                            lastPosition = Constants.windowCenter
-                                            scrollPosition = Constants.windowCenter
+                                            showResetConfirmation = true
                                         }
                                     }
                             )
@@ -119,6 +120,53 @@ struct ContentView: View {
         }
         .sheet(isPresented: $showStats) {
             StatsView(stats: stats)
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    showMenu = true
+                } label: {
+                    Image(systemName: "ellipsis.circle")
+                }
+            }
+        }
+        .sheet(isPresented: $showMenu) {
+            List {
+                Button {
+                    showMenu = false
+                    showPatternPicker = true
+                } label: {
+                    Label("Effects", systemImage: "waveform")
+                }
+                Button {
+                    showMenu = false
+                    showStats = true
+                } label: {
+                    Label("Statistics", systemImage: "chart.bar")
+                }
+                Button {
+                    showMenu = false
+                    toggleAmbientMode()
+                } label: {
+                    Label(isAmbientMode ? "Normal Mode" : "Ambient Mode", systemImage: isAmbientMode ? "sun.max" : "moon")
+                }
+            }
+        }
+        .confirmationDialog("Reset to 0?", isPresented: $showResetConfirmation) {
+            Button("Reset", role: .destructive) {
+                baseOffset = 0
+                UserDefaults.standard.set(0, forKey: Constants.baseOffsetKey)
+                lastPosition = Constants.windowCenter
+                scrollPosition = Constants.windowCenter
+            }
+            Button("Cancel", role: .cancel) {}
+        }
+        .onChange(of: isScrolling) { _, spinning in
+            if spinning {
+                stats.startSpinning()
+            } else {
+                stats.stopSpinning()
+            }
         }
         .onAppear {
             loadSettings()
@@ -167,25 +215,6 @@ struct ContentView: View {
         .onTapGesture {
             nextPattern()
         }
-        .contextMenu {
-            Button {
-                showPatternPicker = true
-            } label: {
-                Label("Effects", systemImage: "waveform")
-            }
-
-            Button {
-                showStats = true
-            } label: {
-                Label("Statistics", systemImage: "chart.bar")
-            }
-
-            Button {
-                toggleAmbientMode()
-            } label: {
-                Label(isAmbientMode ? "Normal Mode" : "Ambient Mode", systemImage: isAmbientMode ? "sun.max" : "moon")
-            }
-        }
     }
 
     // MARK: - Actions
@@ -229,6 +258,7 @@ struct ContentView: View {
         if position < Constants.rebalanceThreshold || position > Constants.windowSize - Constants.rebalanceThreshold {
             let offsetFromCenter = position - Constants.windowCenter
             baseOffset += offsetFromCenter
+            UserDefaults.standard.set(baseOffset, forKey: Constants.baseOffsetKey)
             lastPosition = Constants.windowCenter
             scrollPosition = Constants.windowCenter
         }
@@ -290,6 +320,7 @@ struct ContentView: View {
             currentPattern = pattern
         }
         isAmbientMode = UserDefaults.standard.bool(forKey: Constants.ambientModeKey)
+        baseOffset = UserDefaults.standard.integer(forKey: Constants.baseOffsetKey)
         // Sync current pattern to shared defaults for the complication
         Self.sharedDefaults?.set(currentPattern.rawValue, forKey: Constants.patternKey)
     }
