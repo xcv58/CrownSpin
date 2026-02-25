@@ -39,3 +39,8 @@ Thumbs.db
 
 # Claude Code
 .claude/
+
+# Zoe agent infrastructure
+.clawdbot/logs/
+.clawdbot/worktrees/
+.clawdbot/active-tasks.json
