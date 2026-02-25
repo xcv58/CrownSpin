@@ -59,8 +59,21 @@ CrownSpin/
 │   ├── HapticPattern.swift     # Pattern definitions
 │   ├── CrownSpinWidget.swift   # Complication widget
 │   └── Assets.xcassets/        # App assets
+├── scripts/                   # Utility helpers (icons, tooling)
 └── README.md
 ```
+
+## Agentic Orchestration
+
+This repository ships with a lightweight agent orchestrator inspired by the agent swarm workflow you outlined. Zoe lives in `.clawdbot/` and handles:
+
+- Prompt synthesis from `README.md` and `AppStoreMetadata.md`.
+- Tmux-based agent runs (Codex or Claude).
+- Task tracking in `.clawdbot/active-tasks.json`.
+- Monitoring (`check-agents.sh`) and cleanup (`cleanup-orphans.sh`).
+- OpenClaw notifications when a task reaches your definition of done.
+
+See `docs/agent-swarm.md` for documentation and command examples.
 
 ## License
 
