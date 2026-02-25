@@ -99,7 +99,9 @@ enum HapticPattern: String, CaseIterable, Identifiable {
 /// Thresholds use rounding-safe boundaries to avoid "1000.0X" display artifacts.
 private func formatCompact(_ value: Int) -> String {
     let d = Double(value)
-    if value >= 999_950_000_000 {
+    let value64 = Int64(value)
+    let trillionThreshold: Int64 = 999_950_000_000
+    if value64 >= trillionThreshold {
         return String(format: "%.1fT", d / 1_000_000_000_000)
     } else if value >= 999_950_000 {
         return String(format: "%.1fB", d / 1_000_000_000)
