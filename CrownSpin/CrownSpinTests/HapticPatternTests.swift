@@ -140,7 +140,7 @@ final class HapticPatternTests: XCTestCase {
     // MARK: - App Group Suite Name
 
     func testAppGroupSuiteName() {
-        XCTAssertEqual(appGroupSuiteName, "group.com.xcv58.crownspin.watchapp")
+        XCTAssertEqual(appGroupSuiteName, "group.media.jenny.crownspin.watchapp")
     }
 
     // MARK: - formatHapticNumber
