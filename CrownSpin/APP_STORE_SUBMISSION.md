@@ -37,7 +37,7 @@ To regenerate the IPA:
 CrownSpin/scripts/app-store-package.sh export
 ```
 
-After the App Store Connect app record exists, direct upload can be retried with:
+To archive and upload the current release build:
 
 ```sh
 CrownSpin/scripts/app-store-package.sh upload
@@ -61,22 +61,15 @@ Each file is a flattened RGB JPEG at `416 x 496`, which matches Apple's accepted
 
 ## Remaining App Store Connect work
 
-Signing/export now works. Upload is currently blocked because App Store Connect has no app record for the container bundle ID.
+Signing, export, and App Store Connect upload now work. The `1.0 (1)` build has been uploaded and confirmed installable on Apple Watch through TestFlight.
 
-The upload-style export returned:
+Remaining release tasks:
 
-```text
-IDEDistributionFetchAppRecordStep: missingApp(bundleId: "media.jenny.crownspin")
-```
-
-Create the app record in App Store Connect before uploading:
-
-1. App Store Connect > Apps > New App.
-2. Platform: iOS.
-3. Name: `Endless Crown`.
-4. Bundle ID: `media.jenny.crownspin`.
-5. SKU: any unique internal value, for example `endless-crown-watch-1`.
-6. User Access: Full Access unless you need to restrict it.
+1. Select the processed `1.0 (1)` build for the App Store version.
+2. Upload the prepared Apple Watch screenshots.
+3. Fill the App Store metadata, app privacy answers, age rating, pricing, and availability.
+4. Add public privacy policy and support URLs.
+5. Submit the version for App Review.
 
 Copy/paste fields and final metadata are collected in:
 
@@ -84,7 +77,7 @@ Copy/paste fields and final metadata are collected in:
 CrownSpin/AppStoreAssets/Metadata/app-record-fields.md
 ```
 
-After the app record exists, upload the already-exported IPA with Transporter/Xcode Organizer, or retry upload-style export.
+If a new build is needed, upload it with `CrownSpin/scripts/app-store-package.sh upload` or through Transporter/Xcode Organizer.
 
 ## Archive, export, and upload
 

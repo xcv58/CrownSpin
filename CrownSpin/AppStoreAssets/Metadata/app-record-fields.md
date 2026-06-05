@@ -1,6 +1,6 @@
 # App Store Connect App Record
 
-Create this record in App Store Connect before upload:
+App Store Connect app record:
 
 - Platform: iOS
 - Name: Endless Crown
@@ -9,17 +9,13 @@ Create this record in App Store Connect before upload:
 - Primary language: English (U.S.)
 - User Access: Full Access
 
-After the record exists, upload:
+Uploaded build:
 
 ```text
 CrownSpin/AppStoreBuilds/CrownSpin-1.0-1.ipa
 ```
 
-Current upload probe result:
-
-```text
-IDEDistributionFetchAppRecordStep: missingApp(bundleId: "media.jenny.crownspin")
-```
+The `1.0 (1)` build has been uploaded to App Store Connect and confirmed installable on Apple Watch through TestFlight.
 
 ## Version Metadata
 

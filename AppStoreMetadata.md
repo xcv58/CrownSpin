@@ -204,9 +204,9 @@ Note: The simulator can verify UI behavior, but physical haptic feedback require
 - [x] Watch simulator tests passed.
 - [x] App Store distribution profiles available for all three bundle IDs.
 - [x] App Store Connect IPA exported.
-- [ ] App Store Connect app record created for `media.jenny.crownspin`.
+- [x] App Store Connect app record created for `media.jenny.crownspin`.
 - [ ] Privacy policy hosted at a public URL.
 - [ ] Support URL confirmed public and accessible.
-- [ ] App tested on a physical Apple Watch.
-- [ ] Build uploaded to App Store Connect.
+- [x] App tested on a physical Apple Watch through TestFlight.
+- [x] Build uploaded to App Store Connect.
 - [ ] Build selected for submission.
