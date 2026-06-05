@@ -88,8 +88,10 @@ struct CrownSpinComplicationEntryView: View {
             Image(systemName: entry.patternIcon)
                 .font(.system(size: 24))
             VStack(alignment: .leading, spacing: 2) {
-                Text("CrownSpin")
+                Text("Endless Crown")
                     .font(.system(size: 12, weight: .semibold))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
                 Text("Item \(formatItemNumber(entry.currentItemNumber))")
                     .font(.system(size: 11, weight: .medium, design: .monospaced))
                     .minimumScaleFactor(0.7)
@@ -129,8 +131,8 @@ struct CrownSpinComplication: Widget {
             CrownSpinComplicationEntryView(entry: entry)
                 .containerBackground(.fill.tertiary, for: .widget)
         }
-        .configurationDisplayName("CrownSpin")
-        .description("Quick access to CrownSpin and view your haptic stats.")
+        .configurationDisplayName("Endless Crown")
+        .description("Quick access to Endless Crown and view your haptic stats.")
         .supportedFamilies([
             .accessoryCircular,
             .accessoryRectangular,

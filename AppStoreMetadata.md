@@ -1,16 +1,16 @@
-# CrownSpin - App Store Connect Metadata
+# Endless Crown - App Store Connect Metadata
 
 ## App Information
 
 ### App Name
-**CrownSpin**
+Endless Crown
 
 ### Subtitle (30 characters max)
-Haptic Fidget for Apple Watch
+Digital Crown Haptics
 
 ### Category
-- **Primary:** Lifestyle
-- **Secondary:** Health & Fitness
+- Primary: Lifestyle
+- Secondary: Utilities
 
 ### Content Rating
 4+ (No objectionable content)
@@ -20,165 +20,149 @@ Haptic Fidget for Apple Watch
 ## Version Information
 
 ### What's New (Version 1.0)
-Initial release of CrownSpin - your discrete fidget companion for Apple Watch.
+Initial release of Endless Crown, a watch-only haptic fidget experience for Apple Watch.
 
-- 10 unique haptic patterns
-- Digital Crown rotation feedback
-- Dark, minimal interface
-- Pattern persistence
+- 15 selectable haptic effects
+- Digital Crown scrolling feedback
+- Local usage statistics
+- Ambient mode
+- Apple Watch complication
 
 ---
 
 ## App Store Listing
 
 ### Promotional Text (170 characters max)
-*Can be updated anytime without app review*
-
-Turn your Digital Crown into a satisfying fidget experience. Perfect for staying focused during meetings, reducing stress, or just mindless relaxation.
+Turn the Digital Crown into a quiet tactile fidget with selectable haptic effects, local stats, ambient mode, and an Apple Watch complication.
 
 ### Description (4000 characters max)
+Endless Crown is a watch-only tactile fidget app built around the Apple Watch Digital Crown.
 
-**CrownSpin** transforms your Apple Watch's Digital Crown into a discreet, satisfying fidget tool.
+Open Endless Crown, rotate the Digital Crown, and feel a crisp haptic response as you scroll through an infinite numbered list. The interface stays dark and minimal, making it easy to use for a quick tactile break without pulling out your phone.
 
-**WHY CROWNSPIN?**
+Choose from 15 haptic effects:
 
-We all fidget. Whether you're in a long meeting, waiting in line, or just need something to do with your hands, CrownSpin provides a silent, invisible way to stay occupied. No one will know you're using it – it looks like you're just checking your watch.
+- Clicks
+- Soft
+- Heavy
+- Buzz
+- Ping
+- Thud
+- Drift
+- Pulse
+- Heartbeat
+- Double Tap
+- Gallop
+- Waltz
+- Staccato
+- Wave
+- Random
 
-**10 UNIQUE HAPTIC PATTERNS**
+Endless Crown also includes local usage statistics, ambient mode, and a WidgetKit complication that shows your current item and total haptic count.
 
-• **Clicks** – Classic mechanical feel with every turn
-• **Soft** – Gentle, subtle bumps for quiet moments
-• **Heavy** – Strong, satisfying thuds
-• **Heartbeat** – Rhythmic pulse pattern
-• **Double Tap** – Two quick taps per rotation
-• **Gallop** – Playful long-short-short rhythm
-• **Waltz** – Elegant 1-2-3 dance rhythm
-• **Staccato** – Rapid, crisp bursts
-• **Wave** – Building and fading intensity
-• **Random** – Unpredictable, engaging variety
+Highlights:
 
-**DESIGNED FOR DISCRETION**
+- Built exclusively for Apple Watch
+- Uses the Digital Crown as the main interaction
+- Silent haptic feedback
+- Fast effect switching
+- Local-only preferences and stats
+- No account, ads, analytics, or backend
 
-- Pure black interface blends with your watch face
-- Subtle rotating ring indicator (can be hidden)
-- No sound, only haptics
-- Quick pattern switching with simple taps
+How to use:
 
-**EASY TO USE**
+1. Open Endless Crown on Apple Watch.
+2. Rotate the Digital Crown to scroll and feel haptics.
+3. Tap the effect chip to cycle effects.
+4. Long-press the effect chip to open the Effects picker.
+5. Double-tap the selected number to view statistics.
 
-1. Open the app
-2. Rotate the Digital Crown
-3. Feel satisfying haptic feedback
-4. Tap left/right to change patterns
-5. Long press to hide the visual indicator
-
-**BENEFITS**
-
-✓ Reduce stress and anxiety
-✓ Stay focused during meetings
-✓ Satisfy the urge to fidget
-✓ Completely silent operation
-✓ No one knows you're using it
-
-**REQUIREMENTS**
-
-- Apple Watch with watchOS 10 or later
-- Works on all Apple Watch models with Digital Crown
-
-Download CrownSpin today and discover your new favorite way to fidget.
-
----
+Endless Crown requires Apple Watch with watchOS 10 or later.
 
 ### Keywords (100 characters max, comma separated)
-
-fidget,haptic,stress,anxiety,focus,relaxation,crown,spin,mindfulness,calm,tactile,sensory,discrete
+fidget,haptic,crown,watch,focus,calm,tactile,sensory,clicks,spinner,discreet
 
 ---
 
 ## Support Information
 
 ### Support URL
-https://github.com/[your-username]/crownspin/issues
+https://github.com/xcv58/CrownSpin/issues
 
 ### Marketing URL (optional)
-https://github.com/[your-username]/crownspin
+https://github.com/xcv58/CrownSpin
 
 ### Privacy Policy URL
-*(Required - you'll need to host one)*
+Use a public URL for `PrivacyPolicy.md`, for example:
 
-Example text for privacy policy:
-> CrownSpin does not collect, store, or transmit any personal data. Your pattern preferences are stored locally on your device only.
+```text
+https://github.com/xcv58/CrownSpin/blob/main/PrivacyPolicy.md
+```
+
+This URL is only suitable if the repository is public. If the repository is private, host the privacy policy on a public webpage before submission.
+
+---
+
+## App Privacy
+
+Suggested App Store Connect answers, assuming no analytics, ads, crash reporting SDKs, or network data collection are added:
+
+- Data Collection: No, this app does not collect data from this app.
+- Tracking: No.
+- Required reason APIs: UserDefaults only, declared in the app and complication privacy manifests.
 
 ---
 
 ## Screenshots
 
-### Required Sizes for Apple Watch
-- **Watch 45mm (Series 7+):** 396 x 484 pixels
-- **Watch Ultra:** 410 x 502 pixels
+Prepared Apple Watch screenshots:
 
-### Screenshot Ideas
+- `CrownSpin/AppStoreAssets/Screenshots/apple-watch-46mm-main.jpg`
+- `CrownSpin/AppStoreAssets/Screenshots/apple-watch-46mm-effect-soft.jpg`
+- `CrownSpin/AppStoreAssets/Screenshots/apple-watch-46mm-effects.jpg`
 
-1. **Main Screen** - App with rotating ring visible, "Clicks" pattern selected
-2. **Pattern Switching** - Show different pattern name (e.g., "Heartbeat")
-3. **Minimal Mode** - Hidden indicator, pure black screen
-4. **Pattern Variety** - Show another pattern like "Wave"
+Each screenshot is `416 x 496`, RGB, no alpha channel, and matches Apple's Series 11 / Series 10 Apple Watch screenshot size. Upload one to ten screenshots in the Apple Watch section.
 
-### Screenshot Captions
-1. "Rotate the Crown, feel the click"
-2. "10 unique haptic patterns"
-3. "Completely discrete"
-4. "Your silent fidget companion"
+Suggested captions:
+
+1. Rotate the Crown, feel the click
+2. Switch tactile effects instantly
+3. Choose from 15 haptic patterns
 
 ---
 
 ## App Preview Video (Optional)
 
-**Duration:** 15-30 seconds
+App previews are optional. If you create one later:
 
-**Suggested Content:**
-1. Hand wearing Apple Watch (2s)
-2. Open CrownSpin app (2s)
-3. Rotate Digital Crown with visible ring animation (5s)
-4. Tap to switch pattern, show name change (3s)
-5. Long press to hide indicator (2s)
-6. Continue rotating on black screen (3s)
-7. End card with app icon and name (3s)
-
-**Background Music:** Calm, minimal ambient track
+1. Show Endless Crown launching on Apple Watch.
+2. Rotate the Digital Crown.
+3. Switch effects.
+4. Open the Effects picker.
+5. Show the complication on a watch face.
 
 ---
 
 ## Localization
 
-### Primary Language
-English (U.S.)
+Primary language: English (U.S.)
 
-### Recommended Additional Languages
-- English (UK)
-- German
-- French
-- Spanish
-- Japanese
-- Chinese (Simplified)
+Additional localizations can wait until after 1.0 unless you plan a multi-region launch with translated metadata and screenshots.
 
 ---
 
 ## Pricing
 
-### Suggested Price
-- **Free** (to maximize downloads)
-- Or **$0.99 / €0.99** (if monetizing)
+Suggested starting price: Free or $0.99.
 
-### In-App Purchases
-None
+In-app purchases: None.
 
 ---
 
 ## Age Rating Questionnaire Answers
 
 | Question | Answer |
-|----------|--------|
+| --- | --- |
 | Cartoon or Fantasy Violence | None |
 | Realistic Violence | None |
 | Sexual Content or Nudity | None |
@@ -189,32 +173,40 @@ None
 | Medical/Treatment Information | None |
 | Unrestricted Web Access | No |
 
-**Result: 4+**
+Expected result: 4+
 
 ---
 
-## Review Notes (For App Review Team)
+## Review Notes
 
-This is a simple utility app that provides haptic feedback when the user rotates the Digital Crown on their Apple Watch.
+Endless Crown is a watch-only Digital Crown haptic fidget app. It has no login, backend, ads, analytics, purchases, or special permissions.
 
-**How to test:**
-1. Install the app on an Apple Watch (simulator won't show haptics)
-2. Open the app
-3. Rotate the Digital Crown to feel haptic feedback
-4. Tap left or right side of screen to change patterns
-5. Long press to hide/show the visual indicator
+How to test:
 
-The app requires no special permissions and does not access any user data.
+1. Install Endless Crown on Apple Watch.
+2. Open the app.
+3. Rotate the Digital Crown to scroll and feel haptic feedback.
+4. Tap the effect chip at the bottom to cycle effects.
+5. Long-press the effect chip to open the Effects picker.
+6. Double-tap the selected number to view local statistics.
+7. Add the Endless Crown complication to a watch face to view the current item and haptic count.
+
+Note: The simulator can verify UI behavior, but physical haptic feedback requires an Apple Watch.
 
 ---
 
 ## Checklist Before Submission
 
-- [ ] App icons generated (all sizes)
-- [ ] Screenshots captured on device
-- [ ] Privacy Policy URL hosted
-- [ ] Support URL accessible
-- [ ] App tested on physical Apple Watch
-- [ ] All metadata filled in App Store Connect
-- [ ] Build uploaded via Xcode or Transporter
-- [ ] Build selected for submission
+- [x] App icons generated.
+- [x] Apple Watch screenshots prepared.
+- [x] Privacy manifests added.
+- [x] Release build verified.
+- [x] Watch simulator tests passed.
+- [x] App Store distribution profiles available for all three bundle IDs.
+- [x] App Store Connect IPA exported.
+- [ ] App Store Connect app record created for `media.jenny.crownspin`.
+- [ ] Privacy policy hosted at a public URL.
+- [ ] Support URL confirmed public and accessible.
+- [ ] App tested on a physical Apple Watch.
+- [ ] Build uploaded to App Store Connect.
+- [ ] Build selected for submission.

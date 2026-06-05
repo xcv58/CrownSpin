@@ -1,14 +1,14 @@
-# CrownSpin
+# Endless Crown
 
 A discrete Apple Watch fidget app that provides satisfying haptic feedback when rotating the Digital Crown.
 
 ## Features
 
 - **Digital Crown Haptics**: Infinite rotation with customizable haptic feedback
-- **10 Haptic Patterns**: From subtle clicks to complex rhythms
+- **15 Haptic Effects**: From subtle clicks to complex rhythms
 - **Discrete Design**: Nearly invisible dark UI for use in meetings
 - **Quick Launch**: Complication support for one-tap access
-- **Eyes-Free Operation**: Switch patterns with simple taps
+- **Eyes-Free Operation**: Switch effects with simple taps
 
 ## Haptic Patterns
 
@@ -18,6 +18,15 @@ A discrete Apple Watch fidget app that provides satisfying haptic feedback when 
 | Clicks | Classic clicky feel, high sensitivity |
 | Soft | Gentle bumps, medium sensitivity |
 | Heavy | Strong thuds, low sensitivity |
+
+### Texture Patterns
+| Pattern | Description |
+|---------|-------------|
+| Buzz | Persistent buzz-like feedback |
+| Ping | Bright confirmation-style taps |
+| Thud | Dense failure-style feedback |
+| Drift | Downward directional feel |
+| Pulse | Stopping pulse feedback |
 
 ### Rhythm Patterns
 | Pattern | Description |
@@ -33,9 +42,10 @@ A discrete Apple Watch fidget app that provides satisfying haptic feedback when 
 ## Usage
 
 1. Rotate the Digital Crown to feel haptic feedback
-2. Tap left side of screen for previous pattern
-3. Tap right side of screen for next pattern
-4. Double-tap to hide/show the visual indicator
+2. Tap the effect chip to cycle effects
+3. Long-press the effect chip to open the Effects picker
+4. Double-tap the selected number to view statistics
+5. Long-press the selected number to reset to zero
 
 ## Requirements
 
@@ -45,8 +55,10 @@ A discrete Apple Watch fidget app that provides satisfying haptic feedback when 
 ## Building
 
 1. Open `CrownSpin.xcodeproj` in Xcode 15+
-2. Select your Apple Watch as the destination
+2. Select the `CrownSpin Watch App` scheme for simulator/device testing, or the `CrownSpin` scheme for App Store archives
 3. Build and run
+
+The public app name is Endless Crown. The Xcode project, schemes, bundle IDs, and targets still use CrownSpin internally so existing signing and App Store provisioning profiles remain valid.
 
 ## Project Structure
 
@@ -55,11 +67,12 @@ CrownSpin/
 ├── CrownSpin Watch App/
 │   ├── CrownSpinApp.swift      # App entry point
 │   ├── ContentView.swift       # Main fidget view
-│   ├── HapticManager.swift     # Haptic feedback engine
 │   ├── HapticPattern.swift     # Pattern definitions
-│   ├── CrownSpinWidget.swift   # Complication widget
+│   ├── HapticStats.swift       # Local usage statistics
+│   ├── CrownSpinComplication.swift # Complication widget
 │   └── Assets.xcassets/        # App assets
-├── scripts/                   # Utility helpers (icons, tooling)
+├── CrownSpin Complication/    # WidgetKit extension entry point
+├── CrownSpinTests/            # Unit tests
 └── README.md
 ```
 
