@@ -68,11 +68,7 @@ struct ContentView: View {
                             .id(index)
                             .contentShape(Rectangle())
                             .onTapGesture(count: 2) {
-                                if scrollPosition == index {
-                                    revealMenuButton()
-                                    WKInterfaceDevice.current().play(.click)
-                                    showStats = true
-                                }
+                                openMenu()
                             }
                             .onTapGesture(count: 1) {
                                 revealMenuButton()
@@ -87,16 +83,6 @@ struct ContentView: View {
                                     }
                                 }
                             }
-                            .simultaneousGesture(
-                                LongPressGesture(minimumDuration: 0.5)
-                                    .onEnded { _ in
-                                        if scrollPosition == index {
-                                            revealMenuButton()
-                                            WKInterfaceDevice.current().play(.notification)
-                                            showResetConfirmation = true
-                                        }
-                                    }
-                            )
                         }
                     }
                     .scrollTargetLayout()
@@ -169,6 +155,14 @@ struct ContentView: View {
                 } label: {
                     Label("Guide", systemImage: "questionmark.circle")
                 }
+                Button(role: .destructive) {
+                    showMenu = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                        showResetConfirmation = true
+                    }
+                } label: {
+                    Label("Reset Counter", systemImage: "arrow.counterclockwise")
+                }
                 Button {
                     showMenu = false
                     toggleAmbientMode()
@@ -186,10 +180,7 @@ struct ContentView: View {
         }
         .confirmationDialog("Reset to 0?", isPresented: $showResetConfirmation) {
             Button("Reset", role: .destructive) {
-                baseOffset = 0
-                UserDefaults.standard.set(0, forKey: Constants.baseOffsetKey)
-                lastPosition = Constants.windowCenter
-                scrollPosition = Constants.windowCenter
+                resetCounter()
             }
             Button("Cancel", role: .cancel) {}
         }
@@ -221,8 +212,7 @@ struct ContentView: View {
     private var interactionHint: some View {
         HStack(spacing: 6) {
             GuideHintItem(icon: "hand.tap", text: "Tap effect")
-            GuideHintItem(icon: "hand.tap.fill", text: "Hold")
-            GuideHintItem(icon: "2.circle", text: "2x stats")
+            GuideHintItem(icon: "2.circle", text: "Menu")
         }
         .foregroundColor(.white.opacity(0.86))
         .padding(.horizontal, 10)
@@ -261,11 +251,9 @@ struct ContentView: View {
         .padding(.bottom, 4)
         .opacity(currentPattern == .random ? 1.0 : (isScrolling ? 0.0 : 1.0))
         .animation(.easeInOut(duration: 0.3), value: isScrolling)
-        .onLongPressGesture(minimumDuration: 0.5, perform: {
-            revealMenuButton()
-            WKInterfaceDevice.current().play(.click)
-            showPatternPicker = true
-        }, onPressingChanged: { _ in })
+        .onTapGesture(count: 2) {
+            openMenu()
+        }
         .onTapGesture {
             revealMenuButton()
             nextPattern()
@@ -274,9 +262,7 @@ struct ContentView: View {
 
     private var menuButton: some View {
         Button {
-            menuButtonTimer?.invalidate()
-            showMenuButton = true
-            showMenu = true
+            openMenu()
         } label: {
             Image(systemName: "ellipsis.circle")
                 .font(.system(size: 21, weight: .semibold))
@@ -404,6 +390,23 @@ struct ContentView: View {
         revealMenuButton()
     }
 
+    private func openMenu() {
+        menuButtonTimer?.invalidate()
+        withAnimation(.easeInOut(duration: 0.2)) {
+            showMenuButton = true
+        }
+        WKInterfaceDevice.current().play(.click)
+        showMenu = true
+    }
+
+    private func resetCounter() {
+        baseOffset = 0
+        UserDefaults.standard.set(0, forKey: Constants.baseOffsetKey)
+        lastPosition = Constants.windowCenter
+        scrollPosition = Constants.windowCenter
+        revealMenuButton()
+    }
+
     private func revealMenuButton() {
         menuButtonTimer?.invalidate()
         withAnimation(.easeInOut(duration: 0.2)) {
@@ -469,19 +472,14 @@ private struct InteractionGuideView: View {
                 detail: "Switch to the next haptic."
             )
             GuideRow(
-                icon: "hand.tap.fill",
-                title: "Hold effect",
-                detail: "Open the Effects picker."
-            )
-            GuideRow(
                 icon: "2.circle",
-                title: "Double-tap number",
-                detail: "Open local statistics."
+                title: "Double-tap",
+                detail: "Open the menu."
             )
             GuideRow(
-                icon: "arrow.counterclockwise",
-                title: "Hold number",
-                detail: "Reset the counter to 0."
+                icon: "ellipsis.circle",
+                title: "Menu",
+                detail: "Effects, stats, reset, and ambient mode."
             )
         }
         .navigationTitle("Guide")
