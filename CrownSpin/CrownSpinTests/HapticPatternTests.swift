@@ -11,9 +11,9 @@ final class HapticPatternTests: XCTestCase {
 
     func testAllCasesOrdering() {
         let expected: [HapticPattern] = [
-            .clicks, .soft, .heavy,
-            .buzz, .ping, .thud, .drift, .pulse,
-            .heartbeat, .doubleTap, .gallop, .waltz, .staccato, .wave, .random
+            .soft, .drift, .clicks, .ping, .pulse, .wave,
+            .heartbeat, .doubleTap, .waltz, .gallop, .staccato,
+            .buzz, .thud, .heavy, .random
         ]
         XCTAssertEqual(HapticPattern.allCases, expected)
     }
@@ -117,9 +117,9 @@ final class HapticPatternTests: XCTestCase {
 
     func testNonRandomPatternsPreservesOrder() {
         let expected: [HapticPattern] = [
-            .clicks, .soft, .heavy,
-            .buzz, .ping, .thud, .drift, .pulse,
-            .heartbeat, .doubleTap, .gallop, .waltz, .staccato, .wave
+            .soft, .drift, .clicks, .ping, .pulse, .wave,
+            .heartbeat, .doubleTap, .waltz, .gallop, .staccato,
+            .buzz, .thud, .heavy
         ]
         XCTAssertEqual(HapticPattern.nonRandomPatterns, expected)
     }

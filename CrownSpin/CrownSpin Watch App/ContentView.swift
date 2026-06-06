@@ -10,6 +10,7 @@ struct ContentView: View {
         static let patternKey = "selectedHapticPattern"
         static let ambientModeKey = "ambientModeEnabled"
         static let baseOffsetKey = "baseOffset"
+        static let guideSeenKey = "hasSeenInteractionGuide"
         static let windowSize = 1000
         static let windowCenter = 500
         static let rebalanceThreshold = 100
@@ -38,6 +39,8 @@ struct ContentView: View {
     @State private var showStats: Bool = false
     @State private var showResetConfirmation: Bool = false
     @State private var showMenu: Bool = false
+    @State private var showGuide: Bool = false
+    @State private var showGestureHint: Bool = false
     @State private var isAmbientMode: Bool = false
 
     // Stats
@@ -107,8 +110,12 @@ struct ContentView: View {
             }
 
             // Bottom controls
-            VStack {
+            VStack(spacing: 6) {
                 Spacer()
+                if showGestureHint && !isAmbientMode {
+                    interactionHint
+                        .transition(.opacity.combined(with: .move(edge: .bottom)))
+                }
                 controlLabel
             }
         }
@@ -120,6 +127,9 @@ struct ContentView: View {
         }
         .sheet(isPresented: $showStats) {
             StatsView(stats: stats)
+        }
+        .sheet(isPresented: $showGuide) {
+            InteractionGuideView()
         }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
@@ -143,6 +153,12 @@ struct ContentView: View {
                     showStats = true
                 } label: {
                     Label("Statistics", systemImage: "chart.bar")
+                }
+                Button {
+                    showMenu = false
+                    showGuide = true
+                } label: {
+                    Label("Guide", systemImage: "questionmark.circle")
                 }
                 Button {
                     showMenu = false
@@ -170,6 +186,7 @@ struct ContentView: View {
         }
         .onAppear {
             loadSettings()
+            showFirstRunGuideHint()
             stats.startSession()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 hasInitialized = true
@@ -182,6 +199,24 @@ struct ContentView: View {
     }
 
     // MARK: - Subviews
+
+    private var interactionHint: some View {
+        HStack(spacing: 6) {
+            GuideHintItem(icon: "hand.tap", text: "Tap effect")
+            GuideHintItem(icon: "hand.tap.fill", text: "Hold")
+            GuideHintItem(icon: "2.circle", text: "2x stats")
+        }
+        .foregroundColor(.white.opacity(0.86))
+        .padding(.horizontal, 10)
+        .padding(.vertical, 6)
+        .background(Color.black.opacity(0.68))
+        .overlay(
+            Capsule()
+                .stroke(Color.white.opacity(0.16), lineWidth: 1)
+        )
+        .clipShape(Capsule())
+        .padding(.horizontal, 6)
+    }
 
     private var controlLabel: some View {
         HStack(spacing: 6) {
@@ -218,6 +253,22 @@ struct ContentView: View {
     }
 
     // MARK: - Actions
+
+    private func showFirstRunGuideHint() {
+        guard !isAmbientMode else { return }
+        guard !UserDefaults.standard.bool(forKey: Constants.guideSeenKey) else { return }
+
+        withAnimation(.easeInOut(duration: 0.25)) {
+            showGestureHint = true
+        }
+        UserDefaults.standard.set(true, forKey: Constants.guideSeenKey)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            withAnimation(.easeInOut(duration: 0.3)) {
+                showGestureHint = false
+            }
+        }
+    }
 
     private func handleScrollChange(from oldValue: Int?, to newValue: Int?) {
         guard let newPos = newValue, newPos != lastPosition else { return }
@@ -330,6 +381,76 @@ struct ContentView: View {
     private func saveSettings() {
         UserDefaults.standard.set(currentPattern.rawValue, forKey: Constants.patternKey)
         Self.sharedDefaults?.set(currentPattern.rawValue, forKey: Constants.patternKey)
+    }
+}
+
+// MARK: - Interaction Guide
+
+private struct GuideHintItem: View {
+    let icon: String
+    let text: String
+
+    var body: some View {
+        HStack(spacing: 3) {
+            Image(systemName: icon)
+                .font(.system(size: 10, weight: .semibold))
+            Text(text)
+                .font(.system(size: 10, weight: .medium))
+                .lineLimit(1)
+                .minimumScaleFactor(0.75)
+        }
+    }
+}
+
+private struct InteractionGuideView: View {
+    var body: some View {
+        List {
+            GuideRow(
+                icon: "hand.tap",
+                title: "Tap effect",
+                detail: "Switch to the next haptic."
+            )
+            GuideRow(
+                icon: "hand.tap.fill",
+                title: "Hold effect",
+                detail: "Open the Effects picker."
+            )
+            GuideRow(
+                icon: "2.circle",
+                title: "Double-tap number",
+                detail: "Open local statistics."
+            )
+            GuideRow(
+                icon: "arrow.counterclockwise",
+                title: "Hold number",
+                detail: "Reset the counter to 0."
+            )
+        }
+        .navigationTitle("Guide")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+private struct GuideRow: View {
+    let icon: String
+    let title: String
+    let detail: String
+
+    var body: some View {
+        HStack(spacing: 8) {
+            Image(systemName: icon)
+                .font(.system(size: 17, weight: .medium))
+                .frame(width: 24)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(.system(size: 13, weight: .semibold))
+                Text(detail)
+                    .font(.system(size: 11))
+                    .foregroundColor(.secondary)
+                    .lineLimit(2)
+            }
+        }
+        .padding(.vertical, 2)
     }
 }
 

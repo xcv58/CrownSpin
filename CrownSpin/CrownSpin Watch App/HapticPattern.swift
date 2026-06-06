@@ -5,25 +5,21 @@ let appGroupSuiteName = "group.media.jenny.crownspin.watchapp"
 
 /// Defines haptic feedback patterns for the Crown Spin fidget experience
 enum HapticPattern: String, CaseIterable, Identifiable {
-    // Basic patterns
-    case clicks
+    // Ordered from gentlest to strongest for picker display and tap cycling.
     case soft
-    case heavy
-
-    // Texture patterns
-    case buzz
-    case ping
-    case thud
     case drift
+    case clicks
+    case ping
     case pulse
-
-    // Rhythm patterns
+    case wave
     case heartbeat
     case doubleTap
-    case gallop
     case waltz
+    case gallop
     case staccato
-    case wave
+    case buzz
+    case thud
+    case heavy
     case random
 
     var id: String { rawValue }
