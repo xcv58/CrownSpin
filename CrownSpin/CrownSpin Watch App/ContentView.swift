@@ -15,6 +15,7 @@ struct ContentView: View {
         static let windowCenter = 500
         static let rebalanceThreshold = 100
         static let idleDelay: TimeInterval = 1.5
+        static let menuAutoHideDelay: TimeInterval = 3.0
     }
 
     // MARK: - State
@@ -41,6 +42,8 @@ struct ContentView: View {
     @State private var showMenu: Bool = false
     @State private var showGuide: Bool = false
     @State private var showGestureHint: Bool = false
+    @State private var showMenuButton: Bool = true
+    @State private var menuButtonTimer: Timer?
     @State private var isAmbientMode: Bool = false
 
     // Stats
@@ -66,11 +69,13 @@ struct ContentView: View {
                             .contentShape(Rectangle())
                             .onTapGesture(count: 2) {
                                 if scrollPosition == index {
+                                    revealMenuButton()
                                     WKInterfaceDevice.current().play(.click)
                                     showStats = true
                                 }
                             }
                             .onTapGesture(count: 1) {
+                                revealMenuButton()
                                 if scrollPosition == index {
                                     nextPattern()
                                 } else {
@@ -86,6 +91,7 @@ struct ContentView: View {
                                 LongPressGesture(minimumDuration: 0.5)
                                     .onEnded { _ in
                                         if scrollPosition == index {
+                                            revealMenuButton()
                                             WKInterfaceDevice.current().play(.notification)
                                             showResetConfirmation = true
                                         }
@@ -111,11 +117,15 @@ struct ContentView: View {
 
             VStack {
                 HStack {
-                    menuButton
+                    if showMenuButton {
+                        menuButton
+                            .transition(.opacity)
+                    }
                     Spacer()
                 }
                 Spacer()
             }
+            .animation(.easeInOut(duration: 0.25), value: showMenuButton)
 
             // Bottom controls
             VStack(spacing: 6) {
@@ -167,6 +177,13 @@ struct ContentView: View {
                 }
             }
         }
+        .onChange(of: showMenu) { _, isPresented in
+            if isPresented {
+                menuButtonTimer?.invalidate()
+            } else {
+                revealMenuButton()
+            }
+        }
         .confirmationDialog("Reset to 0?", isPresented: $showResetConfirmation) {
             Button("Reset", role: .destructive) {
                 baseOffset = 0
@@ -185,6 +202,7 @@ struct ContentView: View {
         }
         .onAppear {
             loadSettings()
+            revealMenuButton()
             showFirstRunGuideHint()
             stats.startSession()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -193,6 +211,7 @@ struct ContentView: View {
         }
         .onDisappear {
             scrollTimer?.invalidate()
+            menuButtonTimer?.invalidate()
             stats.endSession()
         }
     }
@@ -243,21 +262,25 @@ struct ContentView: View {
         .opacity(currentPattern == .random ? 1.0 : (isScrolling ? 0.0 : 1.0))
         .animation(.easeInOut(duration: 0.3), value: isScrolling)
         .onLongPressGesture(minimumDuration: 0.5, perform: {
+            revealMenuButton()
             WKInterfaceDevice.current().play(.click)
             showPatternPicker = true
         }, onPressingChanged: { _ in })
         .onTapGesture {
+            revealMenuButton()
             nextPattern()
         }
     }
 
     private var menuButton: some View {
         Button {
+            menuButtonTimer?.invalidate()
+            showMenuButton = true
             showMenu = true
         } label: {
             Image(systemName: "ellipsis.circle")
-                .font(.system(size: 19, weight: .semibold))
-                .frame(width: 32, height: 32)
+                .font(.system(size: 21, weight: .semibold))
+                .frame(width: 38, height: 38)
                 .background(Color.black.opacity(isAmbientMode ? 0.25 : 0.55))
                 .clipShape(Circle())
         }
@@ -290,6 +313,7 @@ struct ContentView: View {
         lastPosition = newPos
 
         if hasInitialized {
+            revealMenuButton()
             triggerHaptic()
             if isTapNavigation {
                 isTapNavigation = false
@@ -305,6 +329,7 @@ struct ContentView: View {
     private func showControls() {
         scrollTimer?.invalidate()
         isScrolling = false
+        revealMenuButton()
     }
 
     private func startScrolling() {
@@ -376,6 +401,24 @@ struct ContentView: View {
         isAmbientMode.toggle()
         WKInterfaceDevice.current().play(.click)
         UserDefaults.standard.set(isAmbientMode, forKey: Constants.ambientModeKey)
+        revealMenuButton()
+    }
+
+    private func revealMenuButton() {
+        menuButtonTimer?.invalidate()
+        withAnimation(.easeInOut(duration: 0.2)) {
+            showMenuButton = true
+        }
+
+        guard !showMenu else { return }
+        menuButtonTimer = Timer.scheduledTimer(withTimeInterval: Constants.menuAutoHideDelay, repeats: false) { _ in
+            DispatchQueue.main.async {
+                guard !showMenu else { return }
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    showMenuButton = false
+                }
+            }
+        }
     }
 
     // MARK: - Persistence
