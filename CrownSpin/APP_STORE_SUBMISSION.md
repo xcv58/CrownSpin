@@ -113,7 +113,7 @@ Then fill the Apple Watch metadata:
 Suggested review note:
 
 ```text
-Endless Crown is a watch-only Digital Crown haptic fidget app. Use the Digital Crown to scroll through numbered items and feel selectable haptic patterns. The app includes pattern selection, local usage statistics, ambient mode, and a WidgetKit complication that shows the current item and haptic count. It has no login, backend, ads, or analytics.
+Endless Crown is a watch-only Digital Crown haptic fidget app. Use the Digital Crown to scroll through numbered items and feel selectable haptic patterns. The app includes pattern selection, configurable number formats, local usage statistics, ambient mode, an optional hidden menu icon, and a WidgetKit complication that shows the current item and haptic count. It has no login, backend, ads, or analytics.
 ```
 
 Apple references:

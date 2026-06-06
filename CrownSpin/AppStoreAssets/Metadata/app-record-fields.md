@@ -28,7 +28,7 @@ Digital Crown Haptics
 Promotional text:
 
 ```text
-Turn the Digital Crown into a quiet tactile fidget with selectable haptic effects, local stats, ambient mode, and an Apple Watch complication.
+Turn the Digital Crown into a quiet tactile fidget with selectable haptic effects, configurable number formats, local stats, ambient mode, and an Apple Watch complication.
 ```
 
 Keywords:
@@ -62,7 +62,7 @@ Choose from 15 haptic effects:
 - Wave
 - Random
 
-Endless Crown also includes local usage statistics, ambient mode, and a WidgetKit complication that shows your current item and total haptic count.
+Endless Crown also includes local usage statistics, ambient mode, configurable number formats, and a WidgetKit complication that shows your current item and total haptic count.
 
 Highlights:
 
@@ -70,6 +70,7 @@ Highlights:
 - Uses the Digital Crown as the main interaction
 - Silent haptic feedback
 - Fast effect switching
+- Decimal, Roman, Binary, Hex, Octal, and Base-26 number formats
 - Local-only preferences and stats
 - No account, ads, analytics, or backend
 
@@ -77,9 +78,10 @@ How to use:
 
 1. Open Endless Crown on Apple Watch.
 2. Rotate the Digital Crown to scroll and feel haptics.
-3. Tap the effect chip to cycle effects.
-4. Long-press the effect chip to open the Effects picker.
-5. Double-tap the selected number to view statistics.
+3. Tap the number line or effect chip to cycle effects.
+4. Long-press the number line or effect chip to open the Effects picker.
+5. Double-tap the number line or effect chip to open the menu.
+6. Use the menu to change effects, number format, statistics, guide, reset, ambient mode, or menu icon visibility.
 
 Endless Crown requires Apple Watch with watchOS 10 or later.
 ```
@@ -93,10 +95,11 @@ How to test:
 1. Install Endless Crown on Apple Watch.
 2. Open the app.
 3. Rotate the Digital Crown to scroll and feel haptic feedback.
-4. Tap the effect chip at the bottom to cycle effects.
-5. Long-press the effect chip to open the Effects picker.
-6. Double-tap the selected number to view local statistics.
-7. Add the Endless Crown complication to a watch face to view the current item and haptic count.
+4. Tap the number line or effect chip to cycle effects.
+5. Long-press the number line or effect chip to open the Effects picker.
+6. Double-tap the number line or effect chip to open the menu.
+7. In the menu, try Numbers, Statistics, Guide, Ambient Mode, and Hide Menu Icon.
+8. Add the Endless Crown complication to a watch face to view the current item and haptic count.
 
 Note: The simulator can verify UI behavior, but physical haptic feedback requires an Apple Watch.
 ```

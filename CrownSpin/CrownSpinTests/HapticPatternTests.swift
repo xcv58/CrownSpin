@@ -171,6 +171,66 @@ final class HapticPatternTests: XCTestCase {
         XCTAssertEqual(appGroupSuiteName, "group.media.jenny.crownspin.watchapp")
     }
 
+    // MARK: - NumberSystem
+
+    func testNumberSystemCasesOrdering() {
+        XCTAssertEqual(
+            NumberSystem.allCases.map(\.rawValue),
+            ["decimal", "roman", "binary", "hexadecimal", "octal", "base26"]
+        )
+    }
+
+    func testNumberSystemDisplayNames() {
+        let expectedNames: [NumberSystem: String] = [
+            .decimal: "Decimal",
+            .roman: "Roman",
+            .binary: "Binary",
+            .hexadecimal: "Hex",
+            .octal: "Octal",
+            .base26: "Base-26"
+        ]
+        for (system, name) in expectedNames {
+            XCTAssertEqual(system.displayName, name)
+        }
+    }
+
+    func testFormatItemNumberRoman() {
+        XCTAssertEqual(formatItemNumber(0, system: .roman), "N")
+        XCTAssertEqual(formatItemNumber(4, system: .roman), "IV")
+        XCTAssertEqual(formatItemNumber(42, system: .roman), "XLII")
+        XCTAssertEqual(formatItemNumber(1999, system: .roman), "MCMXCIX")
+        XCTAssertEqual(formatItemNumber(-9, system: .roman), "-IX")
+        XCTAssertEqual(formatItemNumber(4000, system: .roman), "4.0K")
+    }
+
+    func testFormatItemNumberBinary() {
+        XCTAssertEqual(formatItemNumber(0, system: .binary), "0")
+        XCTAssertEqual(formatItemNumber(5, system: .binary), "101")
+        XCTAssertEqual(formatItemNumber(-5, system: .binary), "-101")
+    }
+
+    func testFormatItemNumberHexadecimal() {
+        XCTAssertEqual(formatItemNumber(0, system: .hexadecimal), "0")
+        XCTAssertEqual(formatItemNumber(255, system: .hexadecimal), "FF")
+        XCTAssertEqual(formatItemNumber(-255, system: .hexadecimal), "-FF")
+    }
+
+    func testFormatItemNumberOctal() {
+        XCTAssertEqual(formatItemNumber(0, system: .octal), "0")
+        XCTAssertEqual(formatItemNumber(64, system: .octal), "100")
+        XCTAssertEqual(formatItemNumber(-64, system: .octal), "-100")
+    }
+
+    func testFormatItemNumberBase26() {
+        XCTAssertEqual(formatItemNumber(0, system: .base26), "0")
+        XCTAssertEqual(formatItemNumber(1, system: .base26), "A")
+        XCTAssertEqual(formatItemNumber(26, system: .base26), "Z")
+        XCTAssertEqual(formatItemNumber(27, system: .base26), "AA")
+        XCTAssertEqual(formatItemNumber(52, system: .base26), "AZ")
+        XCTAssertEqual(formatItemNumber(53, system: .base26), "BA")
+        XCTAssertEqual(formatItemNumber(-27, system: .base26), "-AA")
+    }
+
     // MARK: - formatHapticNumber
 
     func testFormatHapticNumberZero() {
