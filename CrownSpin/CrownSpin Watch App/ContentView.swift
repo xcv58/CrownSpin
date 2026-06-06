@@ -109,6 +109,14 @@ struct ContentView: View {
                 }
             }
 
+            VStack {
+                HStack {
+                    menuButton
+                    Spacer()
+                }
+                Spacer()
+            }
+
             // Bottom controls
             VStack(spacing: 6) {
                 Spacer()
@@ -130,15 +138,6 @@ struct ContentView: View {
         }
         .sheet(isPresented: $showGuide) {
             InteractionGuideView()
-        }
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button {
-                    showMenu = true
-                } label: {
-                    Image(systemName: "ellipsis.circle")
-                }
-            }
         }
         .sheet(isPresented: $showMenu) {
             List {
@@ -252,6 +251,22 @@ struct ContentView: View {
         }
     }
 
+    private var menuButton: some View {
+        Button {
+            showMenu = true
+        } label: {
+            Image(systemName: "ellipsis.circle")
+                .font(.system(size: 19, weight: .semibold))
+                .frame(width: 32, height: 32)
+                .background(Color.black.opacity(isAmbientMode ? 0.25 : 0.55))
+                .clipShape(Circle())
+        }
+        .buttonStyle(.plain)
+        .foregroundColor(.white.opacity(isAmbientMode ? 0.45 : 0.88))
+        .accessibilityLabel("Menu")
+        .padding(.leading, 6)
+    }
+
     // MARK: - Actions
 
     private func showFirstRunGuideHint() {
@@ -316,7 +331,7 @@ struct ContentView: View {
     }
 
     private func nextPattern() {
-        let allPatterns = HapticPattern.allCases
+        let allPatterns = HapticPattern.selectionOrder
         if let currentIndex = allPatterns.firstIndex(of: currentPattern) {
             let nextIndex = (currentIndex + 1) % allPatterns.count
             currentPattern = allPatterns[nextIndex]

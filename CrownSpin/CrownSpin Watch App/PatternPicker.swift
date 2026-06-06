@@ -13,20 +13,31 @@ struct PatternPicker: View {
 
     var body: some View {
         ScrollView {
-            LazyVGrid(columns: columns, spacing: 8) {
-                ForEach(HapticPattern.allCases) { pattern in
-                    PatternCell(
-                        pattern: pattern,
-                        isSelected: selectedPattern == pattern
-                    ) {
-                        selectedPattern = pattern
-                        // Play preview haptic
-                        if pattern == .random {
-                            WKInterfaceDevice.current().play(HapticPattern.nonRandomPatterns.randomElement()?.primaryHaptic ?? .click)
-                        } else {
-                            WKInterfaceDevice.current().play(pattern.primaryHaptic)
+            VStack(alignment: .leading, spacing: 10) {
+                ForEach(HapticPattern.Category.allCases) { category in
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text(category.rawValue)
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundColor(.secondary)
+                            .padding(.horizontal, 4)
+
+                        LazyVGrid(columns: columns, spacing: 8) {
+                            ForEach(category.patterns) { pattern in
+                                PatternCell(
+                                    pattern: pattern,
+                                    isSelected: selectedPattern == pattern
+                                ) {
+                                    selectedPattern = pattern
+                                    // Play preview haptic
+                                    if pattern == .random {
+                                        WKInterfaceDevice.current().play(HapticPattern.nonRandomPatterns.randomElement()?.primaryHaptic ?? .click)
+                                    } else {
+                                        WKInterfaceDevice.current().play(pattern.primaryHaptic)
+                                    }
+                                    dismiss()
+                                }
+                            }
                         }
-                        dismiss()
                     }
                 }
             }

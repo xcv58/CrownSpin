@@ -11,11 +11,38 @@ final class HapticPatternTests: XCTestCase {
 
     func testAllCasesOrdering() {
         let expected: [HapticPattern] = [
-            .soft, .drift, .clicks, .ping, .pulse, .wave,
-            .heartbeat, .doubleTap, .waltz, .gallop, .staccato,
-            .buzz, .thud, .heavy, .random
+            .clicks, .ping, .soft,
+            .drift, .pulse, .wave,
+            .doubleTap, .gallop, .heartbeat, .staccato, .waltz,
+            .buzz, .heavy, .thud,
+            .random
         ]
         XCTAssertEqual(HapticPattern.allCases, expected)
+    }
+
+    func testCategoriesOrdering() {
+        XCTAssertEqual(
+            HapticPattern.Category.allCases.map(\.rawValue),
+            ["Basic", "Motion", "Rhythms", "Strong", "Special"]
+        )
+    }
+
+    func testSelectionOrderMatchesGroupedDisplayOrder() {
+        let expected: [HapticPattern] = [
+            .clicks, .ping, .soft,
+            .drift, .pulse, .wave,
+            .doubleTap, .gallop, .heartbeat, .staccato, .waltz,
+            .buzz, .heavy, .thud,
+            .random
+        ]
+        XCTAssertEqual(HapticPattern.selectionOrder, expected)
+    }
+
+    func testCategoryPatternsAreAlphabetizedByDisplayName() {
+        for category in HapticPattern.Category.allCases {
+            let names = category.patterns.map(\.displayName)
+            XCTAssertEqual(names, names.sorted(), "\(category.rawValue) is not alphabetized")
+        }
     }
 
     func testRawValueRoundTrip() {
@@ -117,9 +144,10 @@ final class HapticPatternTests: XCTestCase {
 
     func testNonRandomPatternsPreservesOrder() {
         let expected: [HapticPattern] = [
-            .soft, .drift, .clicks, .ping, .pulse, .wave,
-            .heartbeat, .doubleTap, .waltz, .gallop, .staccato,
-            .buzz, .thud, .heavy
+            .clicks, .ping, .soft,
+            .drift, .pulse, .wave,
+            .doubleTap, .gallop, .heartbeat, .staccato, .waltz,
+            .buzz, .heavy, .thud
         ]
         XCTAssertEqual(HapticPattern.nonRandomPatterns, expected)
     }

@@ -5,24 +5,48 @@ let appGroupSuiteName = "group.media.jenny.crownspin.watchapp"
 
 /// Defines haptic feedback patterns for the Crown Spin fidget experience
 enum HapticPattern: String, CaseIterable, Identifiable {
-    // Ordered from gentlest to strongest for picker display and tap cycling.
-    case soft
-    case drift
     case clicks
     case ping
+    case soft
+    case drift
     case pulse
     case wave
-    case heartbeat
     case doubleTap
-    case waltz
     case gallop
+    case heartbeat
     case staccato
+    case waltz
     case buzz
-    case thud
     case heavy
+    case thud
     case random
 
     var id: String { rawValue }
+
+    enum Category: String, CaseIterable, Identifiable {
+        case basic = "Basic"
+        case motion = "Motion"
+        case rhythms = "Rhythms"
+        case strong = "Strong"
+        case special = "Special"
+
+        var id: String { rawValue }
+
+        var patterns: [HapticPattern] {
+            switch self {
+            case .basic:
+                return [.clicks, .ping, .soft]
+            case .motion:
+                return [.drift, .pulse, .wave]
+            case .rhythms:
+                return [.doubleTap, .gallop, .heartbeat, .staccato, .waltz]
+            case .strong:
+                return [.buzz, .heavy, .thud]
+            case .special:
+                return [.random]
+            }
+        }
+    }
 
     var displayName: String {
         switch self {
@@ -85,9 +109,14 @@ enum HapticPattern: String, CaseIterable, Identifiable {
         }
     }
 
+    /// Picker and tap-cycle order: grouped by type, alphabetized inside each group.
+    static var selectionOrder: [HapticPattern] {
+        Category.allCases.flatMap(\.patterns)
+    }
+
     /// All patterns except random (for random mode selection)
     static var nonRandomPatterns: [HapticPattern] {
-        allCases.filter { $0 != .random }
+        selectionOrder.filter { $0 != .random }
     }
 }
 
