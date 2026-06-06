@@ -209,9 +209,10 @@ private func formatRoman(_ value: Int) -> String {
 }
 
 private func formatBase26(_ value: Int) -> String {
-    guard value > 0 else { return "0" }
+    let adjustedValue = value + 1
+    guard adjustedValue > 0 else { return "0" }
 
-    var remaining = value
+    var remaining = adjustedValue
     var result = ""
     while remaining > 0 {
         remaining -= 1
@@ -268,4 +269,13 @@ func formatItemNumber(_ num: Int, system: NumberSystem = .decimal) -> String {
     case .base26:
         return parts.sign + formatBase26(parts.magnitude)
     }
+}
+
+/// Formats the reset destination, keeping decimal visible when the active system uses another zero label.
+func formatResetTarget(system: NumberSystem) -> String {
+    let formattedZero = formatItemNumber(0, system: system)
+    if formattedZero == "0" {
+        return "0"
+    }
+    return "\(formattedZero) (0)"
 }

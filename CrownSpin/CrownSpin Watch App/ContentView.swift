@@ -206,8 +206,8 @@ struct ContentView: View {
                 revealMenuButton()
             }
         }
-        .confirmationDialog("Reset to 0?", isPresented: $showResetConfirmation) {
-            Button("Reset", role: .destructive) {
+        .confirmationDialog("Reset count?", isPresented: $showResetConfirmation) {
+            Button(resetButtonTitle, role: .destructive) {
                 resetCounter()
             }
             Button("Cancel", role: .cancel) {}
@@ -306,6 +306,10 @@ struct ContentView: View {
         .foregroundColor(.white.opacity(isAmbientMode ? 0.45 : 0.88))
         .accessibilityLabel("Menu")
         .padding(.leading, 6)
+    }
+
+    private var resetButtonTitle: String {
+        "Reset to \(formatResetTarget(system: numberSystem))"
     }
 
     // MARK: - Actions

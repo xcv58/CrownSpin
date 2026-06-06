@@ -222,13 +222,22 @@ final class HapticPatternTests: XCTestCase {
     }
 
     func testFormatItemNumberBase26() {
-        XCTAssertEqual(formatItemNumber(0, system: .base26), "0")
-        XCTAssertEqual(formatItemNumber(1, system: .base26), "A")
-        XCTAssertEqual(formatItemNumber(26, system: .base26), "Z")
-        XCTAssertEqual(formatItemNumber(27, system: .base26), "AA")
-        XCTAssertEqual(formatItemNumber(52, system: .base26), "AZ")
-        XCTAssertEqual(formatItemNumber(53, system: .base26), "BA")
-        XCTAssertEqual(formatItemNumber(-27, system: .base26), "-AA")
+        XCTAssertEqual(formatItemNumber(0, system: .base26), "A")
+        XCTAssertEqual(formatItemNumber(1, system: .base26), "B")
+        XCTAssertEqual(formatItemNumber(25, system: .base26), "Z")
+        XCTAssertEqual(formatItemNumber(26, system: .base26), "AA")
+        XCTAssertEqual(formatItemNumber(51, system: .base26), "AZ")
+        XCTAssertEqual(formatItemNumber(52, system: .base26), "BA")
+        XCTAssertEqual(formatItemNumber(-26, system: .base26), "-AA")
+    }
+
+    func testFormatResetTarget() {
+        XCTAssertEqual(formatResetTarget(system: .decimal), "0")
+        XCTAssertEqual(formatResetTarget(system: .binary), "0")
+        XCTAssertEqual(formatResetTarget(system: .hexadecimal), "0")
+        XCTAssertEqual(formatResetTarget(system: .octal), "0")
+        XCTAssertEqual(formatResetTarget(system: .roman), "N (0)")
+        XCTAssertEqual(formatResetTarget(system: .base26), "A (0)")
     }
 
     // MARK: - formatHapticNumber
