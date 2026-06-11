@@ -22,4 +22,4 @@ Endless Crown does not require an account and does not include ads, analytics SD
 
 For support or privacy questions, open an issue at:
 
-https://github.com/xcv58/CrownSpin/issues
+https://github.com/xcv58/endless-crown/issues

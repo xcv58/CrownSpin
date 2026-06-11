@@ -87,16 +87,16 @@ fidget,haptic,crown,watch,focus,calm,tactile,sensory,clicks,spinner,discreet
 ## Support Information
 
 ### Support URL
-https://github.com/xcv58/CrownSpin/issues
+https://github.com/xcv58/endless-crown/issues
 
 ### Marketing URL (optional)
-https://github.com/xcv58/CrownSpin
+https://github.com/xcv58/endless-crown
 
 ### Privacy Policy URL
 Use a public URL for `PrivacyPolicy.md`, for example:
 
 ```text
-https://github.com/xcv58/CrownSpin/blob/main/PrivacyPolicy.md
+https://github.com/xcv58/endless-crown/blob/main/PrivacyPolicy.md
 ```
 
 This URL is only suitable if the repository is public. If the repository is private, host the privacy policy on a public webpage before submission.
