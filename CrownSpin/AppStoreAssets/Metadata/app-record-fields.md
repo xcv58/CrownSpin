@@ -28,19 +28,19 @@ Digital Crown Haptics
 Promotional text:
 
 ```text
-Turn the Digital Crown into a quiet tactile fidget with selectable haptic effects, configurable number formats, local stats, ambient mode, and an Apple Watch complication.
+Spin the Digital Crown for quiet haptic feedback, 15 effects, number formats, local stats, ambient mode, and an Apple Watch complication.
 ```
 
 Keywords:
 
 ```text
-fidget,haptic,crown,watch,focus,calm,tactile,sensory,clicks,spinner,discreet
+fidget,watch,focus,calm,tactile,sensory,clicks,spinner,spin,scroll,counter,relax
 ```
 
 Description:
 
 ```text
-Endless Crown is a watch-only tactile fidget app built around the Apple Watch Digital Crown.
+Endless Crown is a watch-only haptic fidget that turns spinning the Apple Watch Digital Crown into quiet tactile feedback.
 
 Open Endless Crown, rotate the Digital Crown, and feel a crisp haptic response as you scroll through an infinite numbered list. The interface stays dark and minimal, making it easy to use for a quick tactile break without pulling out your phone.
 
@@ -108,6 +108,9 @@ Note: The simulator can verify UI behavior, but physical haptic feedback require
 
 Upload these under the Apple Watch screenshot section:
 
-- CrownSpin/AppStoreAssets/Screenshots/apple-watch-46mm-main.jpg
-- CrownSpin/AppStoreAssets/Screenshots/apple-watch-46mm-effect-soft.jpg
-- CrownSpin/AppStoreAssets/Screenshots/apple-watch-46mm-effects.jpg
+- CrownSpin/AppStoreAssets/Screenshots/apple-watch-46mm-01-main.jpg
+- CrownSpin/AppStoreAssets/Screenshots/apple-watch-46mm-02-effects.jpg
+- CrownSpin/AppStoreAssets/Screenshots/apple-watch-46mm-03-menu.jpg
+- CrownSpin/AppStoreAssets/Screenshots/apple-watch-46mm-04-guide.jpg
+- CrownSpin/AppStoreAssets/Screenshots/apple-watch-46mm-05-numbers.jpg
+- CrownSpin/AppStoreAssets/Screenshots/apple-watch-46mm-06-stats.jpg

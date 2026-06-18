@@ -53,9 +53,12 @@ CrownSpin/AppStoreAssets/Screenshots/
 
 Files:
 
-- `apple-watch-46mm-main.jpg`
-- `apple-watch-46mm-effect-soft.jpg`
-- `apple-watch-46mm-effects.jpg`
+- `apple-watch-46mm-01-main.jpg`
+- `apple-watch-46mm-02-effects.jpg`
+- `apple-watch-46mm-03-menu.jpg`
+- `apple-watch-46mm-04-guide.jpg`
+- `apple-watch-46mm-05-numbers.jpg`
+- `apple-watch-46mm-06-stats.jpg`
 
 Each file is a flattened RGB JPEG at `416 x 496`, which matches Apple's accepted Series 11 / Series 10 Apple Watch screenshot size. App Store Connect requires one to ten Apple Watch screenshots; upload these under the Apple Watch screenshot section.
 
